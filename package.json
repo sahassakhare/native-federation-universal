@@ -1,0 +1,94 @@
+{
+  "name": "@native-federation/core",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Browser-native implementation of Module Federation for building Micro Frontends using web standards",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./runtime": {
+      "import": "./dist/runtime.esm.js",
+      "require": "./dist/runtime.js",
+      "types": "./dist/runtime.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts,.js",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run build && npm test && npm run typecheck",
+    "clean": "rm -rf dist coverage",
+    "build:watch": "rollup -c -w",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "micro-frontends",
+    "module-federation",
+    "esm",
+    "native",
+    "angular",
+    "web-standards",
+    "esbuild",
+    "import-maps",
+    "federation",
+    "microfrontend"
+  ],
+  "author": "Native Federation Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/native-federation/core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/native-federation/core/issues"
+  },
+  "homepage": "https://github.com/native-federation/core#readme",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.5.0",
+    "rollup": "^3.0.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "esbuild": "^0.19.0",
+    "semver": "^7.5.0"
+  },
+  "bin": {
+    "native-federation": "./dist/cli/index.js"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=16.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@angular/core": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}

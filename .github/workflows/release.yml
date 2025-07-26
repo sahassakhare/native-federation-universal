@@ -1,0 +1,103 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18.x
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Build package
+      run: npm run build
+    
+    - name: Build schematics
+      run: |
+        cd schematics
+        npm ci
+        npm run build
+    
+    - name: Publish to npm
+      run: npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    
+    - name: Publish schematics to npm
+      run: |
+        cd schematics
+        npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    
+    - name: Generate changelog
+      id: changelog
+      run: |
+        # Extract version from tag
+        VERSION=${GITHUB_REF#refs/tags/v}
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        
+        # Generate changelog from commits
+        git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD > CHANGELOG_CURRENT.md
+        echo "changelog<<EOF" >> $GITHUB_OUTPUT
+        cat CHANGELOG_CURRENT.md >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+    
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release v${{ steps.changelog.outputs.version }}
+        body: |
+          ## Changes in v${{ steps.changelog.outputs.version }}
+          
+          ${{ steps.changelog.outputs.changelog }}
+          
+          ## Installation
+          
+          ```bash
+          npm install @native-federation/core@${{ steps.changelog.outputs.version }}
+          ```
+          
+          ## Migration Schematics
+          
+          ```bash
+          npm install --save-dev @native-federation/schematics@${{ steps.changelog.outputs.version }}
+          ```
+          
+          See [CHANGELOG.md](https://github.com/native-federation/core/blob/main/CHANGELOG.md) for detailed changes.
+        draft: false
+        prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+    
+    - name: Update documentation
+      run: |
+        # Update version in documentation
+        sed -i "s/npm install @native-federation\/core@.*/npm install @native-federation\/core@${{ steps.changelog.outputs.version }}/" README.md
+        
+        # Commit documentation updates
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add README.md
+        git commit -m "docs: update version to v${{ steps.changelog.outputs.version }}" || exit 0
+        git push origin main || exit 0

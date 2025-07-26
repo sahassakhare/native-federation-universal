@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "webpackConfig": {
+      "type": "string",
+      "description": "Path to webpack configuration file",
+      "default": "webpack.config.js"
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "Output path for generated configuration",
+      "default": "federation.config.ts"
+    },
+    "verbose": {
+      "type": "boolean",
+      "description": "Enable verbose logging",
+      "default": false
+    }
+  },
+  "required": ["project"]
+}

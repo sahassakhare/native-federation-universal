@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project to migrate",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "webpackConfig": {
+      "type": "string",
+      "description": "Path to webpack configuration file",
+      "default": "webpack.config.js"
+    },
+    "skipPackageJson": {
+      "type": "boolean",
+      "description": "Skip updating package.json dependencies",
+      "default": false
+    },
+    "skipBuildConfig": {
+      "type": "boolean", 
+      "description": "Skip creating esbuild configuration",
+      "default": false
+    },
+    "skipRuntimeUpdate": {
+      "type": "boolean",
+      "description": "Skip updating runtime imports",
+      "default": false
+    },
+    "dryRun": {
+      "type": "boolean",
+      "description": "Run migration analysis without making changes",
+      "default": false
+    },
+    "verbose": {
+      "type": "boolean",
+      "description": "Enable verbose logging",
+      "default": false
+    }
+  },
+  "required": ["project"]
+}

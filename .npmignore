@@ -1,0 +1,35 @@
+# Source files
+src/
+tests/
+examples/
+docs/
+
+# Configuration files
+tsconfig.json
+rollup.config.js
+jest.config.js
+.eslintrc.cjs
+
+# Development files
+.git/
+.github/
+node_modules/
+coverage/
+
+# Build artifacts (keep only dist)
+*.tsbuildinfo
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Development docs
+IMPLEMENTATION_SUMMARY.md
+TODO.md
