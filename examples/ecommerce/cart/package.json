@@ -1,0 +1,15 @@
+{
+  "name": "@ecommerce/cart",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Shopping cart micro-frontend",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --dev",
+    "serve": "node serve.js"
+  },
+  "dependencies": {
+    "@native-federation/core": "file:../../../",
+    "esbuild": "^0.19.0"
+  }
+}

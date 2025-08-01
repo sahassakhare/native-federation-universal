@@ -1,34 +1,28 @@
 {
   "name": "@native-federation/core",
   "version": "1.0.0",
-  "type": "module",
   "description": "Browser-native implementation of Module Federation for building Micro Frontends using web standards",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/native-federation/bundles/native-federation.umd.js",
+  "module": "dist/native-federation/fesm2022/native-federation.mjs",
+  "typings": "dist/native-federation/native-federation.d.ts",
   "exports": {
-    ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+    "./package.json": {
+      "default": "./package.json"
     },
-    "./runtime": {
-      "import": "./dist/runtime.esm.js",
-      "require": "./dist/runtime.js",
-      "types": "./dist/runtime.d.ts"
+    ".": {
+      "types": "./dist/native-federation/native-federation.d.ts",
+      "import": "./dist/native-federation/fesm2022/native-federation.mjs",
+      "require": "./dist/native-federation/bundles/native-federation.umd.js",
+      "default": "./dist/native-federation/fesm2022/native-federation.mjs"
     }
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "lint": "eslint src --ext .ts,.js",
-    "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run clean && npm run build && npm test && npm run typecheck",
+    "build": "ng build native-federation",
+    "build:watch": "ng build native-federation --watch",
+    "test": "ng test native-federation",
+    "lint": "ng lint native-federation",
     "clean": "rm -rf dist coverage",
-    "build:watch": "rollup -c -w",
-    "prepack": "npm run build"
+    "prepublishOnly": "npm run clean && npm run build && npm run test && npm run lint"
   },
   "keywords": [
     "micro-frontends",
@@ -53,18 +47,35 @@
   "homepage": "https://github.com/native-federation/core#readme",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.0",
-    "@rollup/plugin-typescript": "^11.0.0",
-    "@types/jest": "^29.5.0",
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular-eslint/builder": "^18.0.0",
+    "@angular-eslint/eslint-plugin": "^18.0.0",
+    "@angular-eslint/eslint-plugin-template": "^18.0.0",
+    "@angular-eslint/schematics": "^18.0.0",
+    "@angular-eslint/template-parser": "^18.0.0",
+    "@angular/animations": "^18.0.0",
+    "@angular/cli": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@types/jasmine": "~5.1.0",
     "@types/node": "^20.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "eslint": "^8.0.0",
-    "jest": "^29.5.0",
-    "rollup": "^3.0.0",
-    "ts-jest": "^29.1.0",
-    "typescript": "^5.0.0"
+    "@types/semver": "^7.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^8.57.0",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-packagr": "^18.0.0",
+    "typescript": "~5.4.0",
+    "zone.js": "~0.14.0"
   },
   "dependencies": {
     "commander": "^11.1.0",
@@ -75,7 +86,8 @@
     "native-federation": "./dist/cli/index.js"
   },
   "peerDependencies": {
-    "@angular/core": ">=16.0.0"
+    "@angular/common": "^18.0.0",
+    "@angular/core": "^18.0.0"
   },
   "peerDependenciesMeta": {
     "@angular/core": {
