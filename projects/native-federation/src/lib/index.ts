@@ -1,9 +1,9 @@
-export { NativeFederationPlugin } from './core/plugin.js';
-export { PackagePreparator } from './core/package-preparator.js';
-export { SharedDependencyResolver } from './core/shared-dependency-resolver.js';
-export { ImportMapGenerator } from './core/import-map-generator.js';
-export { RemoteEntryGenerator } from './core/remote-entry-generator.js';
-export { BuildNotificationManager, watchFederationBuildCompletion } from './core/build-notification-manager.js';
+export { NativeFederationPlugin } from './core/plugin';
+export { PackagePreparator } from './core/package-preparator';
+export { SharedDependencyResolver } from './core/shared-dependency-resolver';
+export { ImportMapGenerator } from './core/import-map-generator';
+export { RemoteEntryGenerator } from './core/remote-entry-generator';
+export { BuildNotificationManager, watchFederationBuildCompletion } from './core/build-notification-manager';
 
 export {
   shareAll,
@@ -17,8 +17,8 @@ export {
   validateFederationConfig,
   FederationConfigBuilder,
   createFederationConfig
-} from './utils/helpers.js';
+} from './utils/helpers';
 
-export * from './types/federation.js';
+export * from './types/federation';
 
 export const version = '1.0.0';

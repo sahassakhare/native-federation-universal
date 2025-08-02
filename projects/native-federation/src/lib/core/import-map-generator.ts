@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { NativeFederationOptions, ImportMapEntry, SharedPackageConfig } from '../types/federation.js';
-import { SharedDependencyResolver } from './shared-dependency-resolver.js';
+import { NativeFederationOptions, ImportMapEntry, SharedPackageConfig } from '../types/federation';
+import { SharedDependencyResolver } from './shared-dependency-resolver';
 
 export class ImportMapGenerator {
   private config: NativeFederationOptions;

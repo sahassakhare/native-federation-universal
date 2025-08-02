@@ -1,4 +1,4 @@
-import { SharedConfig, ShareOptions, SharedPackageConfig } from '../types/federation.js';
+import { SharedConfig, ShareOptions, SharedPackageConfig } from '../types/federation';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 

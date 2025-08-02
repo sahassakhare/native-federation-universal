@@ -16,6 +16,20 @@ cd dist/native-federation-schematics
 npm pack
 ```
 
+### Important Note: Build Tools Import
+
+Currently, build tools like `NativeFederationPlugin` and `shareAll` require Node.js dependencies and are not exported from the main `@native-federation/core` package (which is browser-compatible). 
+
+**Temporary Solution:** Import these directly from the source until a separate build-tools package is available:
+
+```javascript
+// Temporary import for build tools
+import { NativeFederationPlugin } from '@native-federation/core/dist/native-federation/esm2022/lib/core/plugin.mjs';
+import { shareAll } from '@native-federation/core/dist/native-federation/esm2022/lib/utils/helpers.mjs';
+
+// OR use the CLI/schematics which handle this automatically
+```
+
 Then install the schematics globally or locally:
 
 ```bash
@@ -28,7 +42,41 @@ npm install native-federation-schematics-1.0.0.tgz --save-dev
 
 ## Available Schematics
 
-### 1. Analyze (`ng-mf:analyze`)
+### 1. Setup (`ng-mf:setup`) - NEW!
+
+Sets up a new Native Federation project from scratch (for vanilla JavaScript/TypeScript projects).
+
+**Usage:**
+```bash
+ng generate @native-federation/schematics:setup --name=my-app --type=host
+
+# With options
+ng generate @native-federation/schematics:setup --name=my-remote --type=remote --port=3001 --createSamples
+```
+
+**Options:**
+- `--name` (string, required): Name of the application
+- `--type` (string, required): Type of application - 'host' or 'remote' (default: `host`)
+- `--port` (number): Development server port (default: `3000`)
+- `--skipPackageJson` (boolean): Skip updating package.json (default: `false`)
+- `--createSamples` (boolean): Create sample files (default: `true`)
+
+**Example:**
+```bash
+# Create a new host application
+ng generate @native-federation/schematics:setup --name=my-store --type=host --port=3000
+
+# Create a new remote application
+ng generate @native-federation/schematics:setup --name=product-catalog --type=remote --port=3001
+```
+
+This schematic creates:
+- `federation.config.js` - Native Federation configuration
+- `build.js` - esbuild configuration with Native Federation plugin
+- `package.json` - Updated with required dependencies and scripts
+- Sample files (if enabled): `src/main.js`, `index.html`, etc.
+
+### 2. Analyze (`ng-mf:analyze`)
 
 Analyzes your existing Webpack Module Federation configuration without making any changes.
 

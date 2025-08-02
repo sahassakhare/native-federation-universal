@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { NativeFederationOptions, SharedConfig, SharedPackageConfig, PreparedPackage } from '../types/federation.js';
-import { PackagePreparator } from './package-preparator.js';
+import { NativeFederationOptions, SharedConfig, SharedPackageConfig, PreparedPackage } from '../types/federation';
+import { PackagePreparator } from './package-preparator';
 
 export class SharedDependencyResolver {
   private config: NativeFederationOptions;

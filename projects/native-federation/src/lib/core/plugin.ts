@@ -1,10 +1,10 @@
 import { BuildOptions, Plugin } from 'esbuild';
-import { NativeFederationOptions, FederationConfig } from '../types/federation.js';
-import { PackagePreparator } from './package-preparator.js';
-import { ImportMapGenerator } from './import-map-generator.js';
-import { RemoteEntryGenerator } from './remote-entry-generator.js';
-import { SharedDependencyResolver } from './shared-dependency-resolver.js';
-import { BuildNotificationManager } from './build-notification-manager.js';
+import { NativeFederationOptions, FederationConfig } from '../types/federation';
+import { PackagePreparator } from './package-preparator';
+import { ImportMapGenerator } from './import-map-generator';
+import { RemoteEntryGenerator } from './remote-entry-generator';
+import { SharedDependencyResolver } from './shared-dependency-resolver';
+import { BuildNotificationManager } from './build-notification-manager';
 import * as path from 'path';
 import * as fs from 'fs/promises';
 

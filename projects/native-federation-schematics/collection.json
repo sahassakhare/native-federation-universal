@@ -25,6 +25,11 @@
       "description": "Analyze existing webpack module federation setup",
       "factory": "./src/analyze/index#analyze",
       "schema": "./src/analyze/schema.json"
+    },
+    "setup": {
+      "description": "Setup a new Native Federation project from scratch",
+      "factory": "./src/setup/index#setup",
+      "schema": "./src/setup/schema.json"
     }
   }
 }

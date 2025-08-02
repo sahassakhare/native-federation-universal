@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NativeFederationSetup",
+  "title": "Native Federation Setup Schema",
+  "type": "object",
+  "description": "Setup a new Native Federation project from scratch",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the application",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of application",
+      "enum": ["host", "remote"],
+      "default": "host"
+    },
+    "port": {
+      "type": "number",
+      "description": "Development server port",
+      "default": 3000,
+      "minimum": 1000,
+      "maximum": 65535
+    },
+    "skipPackageJson": {
+      "type": "boolean",
+      "description": "Skip updating package.json",
+      "default": false
+    },
+    "createSamples": {
+      "type": "boolean", 
+      "description": "Create sample files",
+      "default": true
+    }
+  },
+  "required": ["name", "type"],
+  "additionalProperties": false
+}

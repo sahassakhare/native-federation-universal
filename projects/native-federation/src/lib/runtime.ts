@@ -8,10 +8,10 @@ export {
   isInitialized,
   reinitialize,
   getFederationStatus
-} from './runtime/federation-runtime.js';
+} from './runtime/federation-runtime';
 
-export { ModuleLoader } from './runtime/module-loader.js';
-export { VersionManager } from './runtime/version-manager.js';
-export { watchFederationBuildCompletion } from './core/build-notification-manager.js';
+export { ModuleLoader } from './runtime/module-loader';
+export { VersionManager } from './runtime/version-manager';
+export { watchFederationBuildCompletion } from './core/build-notification-manager';
 
-export * from './types/federation.js';
+export * from './types/federation';

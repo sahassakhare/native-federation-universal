@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { NativeFederationOptions, PreparedPackage } from '../types/federation.js';
+import { NativeFederationOptions, PreparedPackage } from '../types/federation';
 
 export class PackagePreparator {
   private config: NativeFederationOptions;

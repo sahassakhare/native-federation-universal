@@ -1,4 +1,4 @@
-import { BuildNotificationConfig } from '../types/federation.js';
+import { BuildNotificationConfig } from '../types/federation';
 
 export class BuildNotificationManager {
   private config: BuildNotificationConfig;

@@ -21,3 +21,6 @@ export {
 
 // Types
 export * from './lib/types/federation';
+
+// Browser-compatible utilities only
+// Note: Build tools (NativeFederationPlugin) are Node.js-only and exported separately
