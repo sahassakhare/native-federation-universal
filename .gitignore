@@ -139,7 +139,7 @@ logs
 
 # Build outputs
 dist/
-lib/
+/lib/
 build/
 *.d.ts
 *.js.map
