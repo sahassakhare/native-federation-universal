@@ -59,12 +59,15 @@ npm run build
 
 ### 4. Pack for Distribution
 ```bash
-# Build and pack both libraries
+# Build and pack both libraries (creates .tgz files at root level)
 npm run pack:all
 
 # Pack individual libraries (after building)
-cd dist/native-federation && npm pack
-cd dist/native-federation-schematics && npm pack
+npm run pack:core      # Creates native-federation-core-1.0.0.tgz at root
+npm run pack:schematics # Creates native-federation-schematics-1.0.0.tgz at root
+
+# Or pack without rebuilding
+npm run pack:only
 ```
 
 ## Manual Build Steps
@@ -79,9 +82,8 @@ ng build native-federation
 # Step 2: Verify output
 ls -la dist/native-federation/
 
-# Step 3: Pack (optional)
-cd dist/native-federation
-npm pack
+# Step 3: Pack (optional) 
+npm run pack:core
 ```
 
 ### Schematics Library (@native-federation/schematics)
@@ -98,8 +100,7 @@ cp src/**/*.json ../../dist/native-federation-schematics/src/
 node build.js
 
 # Step 4: Pack (optional)
-cd ../../dist/native-federation-schematics
-npm pack
+npm run pack:schematics
 ```
 
 ## Common Build Errors & Solutions

@@ -11,9 +11,8 @@ Native Federation schematics are Angular CLI code generation tools that automate
 First, ensure you have built and packed the schematics:
 
 ```bash
-npm run build:schematics
-cd dist/native-federation-schematics
-npm pack
+npm run pack:all
+# This builds both libraries and creates .tgz files at the root level
 ```
 
 ### Important Note: Build Tools Import
@@ -33,11 +32,11 @@ import { shareAll } from '@native-federation/core/dist/native-federation/esm2022
 Then install the schematics globally or locally:
 
 ```bash
-# Global installation
-npm install -g native-federation-schematics-1.0.0.tgz
+# Global installation (from root directory)
+npm install -g ./native-federation-schematics-1.0.0.tgz
 
-# Local installation
-npm install native-federation-schematics-1.0.0.tgz --save-dev
+# Local installation (from root directory)
+npm install ./native-federation-schematics-1.0.0.tgz --save-dev
 ```
 
 ## Available Schematics

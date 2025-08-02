@@ -23,9 +23,12 @@
     "build:watch": "ng build native-federation --watch",
     "test": "ng test native-federation",
     "lint": "ng lint native-federation",
-    "clean": "rm -rf dist coverage",
+    "clean": "rm -rf dist coverage *.tgz",
     "prepublishOnly": "npm run clean && npm run build",
-    "pack:all": "npm run build && cd dist/native-federation && npm pack && cd ../native-federation-schematics && npm pack"
+    "pack:core": "cd dist/native-federation && npm pack && mv *.tgz ../../",
+    "pack:schematics": "cd dist/native-federation-schematics && npm pack && mv *.tgz ../../",
+    "pack:only": "npm run pack:core && npm run pack:schematics", 
+    "pack:all": "npm run build && npm run pack:only"
   },
   "keywords": [
     "micro-frontends",
