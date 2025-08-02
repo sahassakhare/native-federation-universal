@@ -1,0 +1,25 @@
+{
+  "name": "@native-federation/schematics",
+  "version": "1.0.0",
+  "description": "Angular schematics for migrating from Webpack Module Federation to Native Federation",
+  "keywords": [
+    "angular",
+    "schematics",
+    "module-federation",
+    "native-federation",
+    "micro-frontends",
+    "migration",
+    "webpack"
+  ],
+  "author": "Native Federation Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/native-federation/core.git",
+    "directory": "projects/native-federation-schematics"
+  },
+  "bugs": {
+    "url": "https://github.com/native-federation/core/issues"
+  },
+  "homepage": "https://github.com/native-federation/core#readme"
+}

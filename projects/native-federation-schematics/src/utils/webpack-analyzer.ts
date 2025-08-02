@@ -18,7 +18,7 @@ export interface RemoteConfig {
   originalEntry: string;
 }
 
-export class WebpackConfigAnalyzer {
+export class WebpackAnalyzer {
   private analysis: WebpackAnalysis = {
     type: 'unknown',
     errors: [],
@@ -37,7 +37,7 @@ export class WebpackConfigAnalyzer {
       const parsed = this.parseConfigFile(configContent);
       this.extractFederationConfig(parsed);
     } catch (error) {
-      this.analysis.errors.push(`Failed to parse webpack config: ${error.message}`);
+      this.analysis.errors.push(`Failed to parse webpack config: ${(error as Error).message}`);
     }
 
     return this.analysis;
@@ -70,7 +70,7 @@ export class WebpackConfigAnalyzer {
         const parsed = this.parseConfigObject(configString);
         return parsed;
       } catch (error) {
-        throw new Error(`Failed to parse config object: ${error.message}`);
+        throw new Error(`Failed to parse config object: ${(error as Error).message}`);
       }
     }
 
@@ -213,7 +213,7 @@ export class WebpackConfigAnalyzer {
           originalEntry: entry
         });
       } catch (error) {
-        this.analysis.warnings.push(`Failed to parse remote ${name}: ${error.message}`);
+        this.analysis.warnings.push(`Failed to parse remote ${name}: ${(error as Error).message}`);
       }
     }
 

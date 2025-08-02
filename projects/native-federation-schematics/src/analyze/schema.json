@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NativeFederationAnalyze",
+  "title": "Native Federation Analyze Schema",
+  "type": "object",
+  "description": "Analyzes existing Webpack Module Federation configuration",
+  "properties": {
+    "configPath": {
+      "type": "string",
+      "description": "Path to webpack configuration file",
+      "default": "webpack.config.js"
+    },
+    "output": {
+      "type": "string",
+      "description": "Path to save analysis report"
+    }
+  },
+  "additionalProperties": false
+}

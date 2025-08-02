@@ -13,8 +13,8 @@ import {
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { Schema as MigrateOptions } from './schema';
-import { WebpackConfigAnalyzer } from '../utils/webpack-analyzer';
-import { RuntimeCodeTransformer } from '../utils/runtime-transformer';
+import { WebpackAnalyzer } from '../utils/webpack-analyzer';
+import { RuntimeTransformer } from '../utils/runtime-transformer';
 import { DependencyUpdater } from '../utils/dependency-updater';
 
 export interface Schema {
@@ -32,7 +32,8 @@ export function migrate(options: Schema): Rule {
     context.logger.info('🚀 Starting migration from Webpack Module Federation to Native Federation');
     
     if (options.verbose) {
-      context.logger.info(`Migration options: ${JSON.stringify(options, null, 2)}`);
+      context.logger.info('Migration options:');
+      context.logger.info(JSON.stringify(options, null, 2));
     }
 
     return chain([
@@ -77,11 +78,12 @@ function analyzeWebpackConfig(options: Schema): Rule {
       return;
     }
 
-    const analyzer = new WebpackConfigAnalyzer();
+    const analyzer = new WebpackAnalyzer();
     const analysis = analyzer.analyze(configContent);
     
     if (options.verbose) {
-      context.logger.info('Analysis results:', JSON.stringify(analysis, null, 2));
+      context.logger.info('Analysis results:');
+      context.logger.info(JSON.stringify(analysis, null, 2));
     }
 
     // Store analysis results for other steps
@@ -108,7 +110,8 @@ function updateDependencies(options: Schema): Rule {
     const updates = updater.getUpdates(packageJson);
     
     if (options.verbose) {
-      context.logger.info('Dependency updates:', JSON.stringify(updates, null, 2));
+      context.logger.info('Dependency updates:');
+      context.logger.info(JSON.stringify(updates, null, 2));
     }
 
     // Apply updates

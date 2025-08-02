@@ -3,7 +3,7 @@ import {
   Tree,
   SchematicContext
 } from '@angular-devkit/schematics';
-import { WebpackConfigAnalyzer } from '../utils/webpack-analyzer';
+import { WebpackAnalyzer } from '../utils/webpack-analyzer';
 
 export interface Schema {
   project: string;
@@ -30,18 +30,18 @@ export function convertConfig(options: Schema): Rule {
       return;
     }
 
-    const analyzer = new WebpackConfigAnalyzer();
+    const analyzer = new WebpackAnalyzer();
     const analysis = analyzer.analyze(configContent);
     
     if (analysis.errors.length > 0) {
       context.logger.error('Errors during webpack config analysis:');
-      analysis.errors.forEach(error => context.logger.error(`  - ${error}`));
+      analysis.errors.forEach((error: string) => context.logger.error(`  - ${error}`));
       return;
     }
 
     if (analysis.warnings.length > 0 && options.verbose) {
       context.logger.warn('Warnings during webpack config analysis:');
-      analysis.warnings.forEach(warning => context.logger.warn(`  - ${warning}`));
+      analysis.warnings.forEach((warning: string) => context.logger.warn(`  - ${warning}`));
     }
 
     const converted = analyzer.convertToNativeFederation(analysis);

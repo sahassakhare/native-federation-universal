@@ -17,12 +17,15 @@
     }
   },
   "scripts": {
-    "build": "ng build native-federation",
+    "build": "ng build native-federation && npm run build:schematics",
+    "build:core": "ng build native-federation",
+    "build:schematics": "node projects/native-federation-schematics/build.js",
     "build:watch": "ng build native-federation --watch",
     "test": "ng test native-federation",
     "lint": "ng lint native-federation",
     "clean": "rm -rf dist coverage",
-    "prepublishOnly": "npm run clean && npm run build && npm run test && npm run lint"
+    "prepublishOnly": "npm run clean && npm run build",
+    "pack:all": "npm run build && cd dist/native-federation && npm pack && cd ../native-federation-schematics && npm pack"
   },
   "keywords": [
     "micro-frontends",
@@ -47,12 +50,6 @@
   "homepage": "https://github.com/native-federation/core#readme",
   "license": "MIT",
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.0.0",
-    "@angular-eslint/builder": "^18.0.0",
-    "@angular-eslint/eslint-plugin": "^18.0.0",
-    "@angular-eslint/eslint-plugin-template": "^18.0.0",
-    "@angular-eslint/schematics": "^18.0.0",
-    "@angular-eslint/template-parser": "^18.0.0",
     "@angular/animations": "^18.0.0",
     "@angular/cli": "^18.0.0",
     "@angular/common": "^18.0.0",
@@ -61,9 +58,14 @@
     "@angular/core": "^18.0.0",
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular-eslint/builder": "^18.0.0",
+    "@angular-eslint/eslint-plugin": "^18.0.0",
+    "@angular-eslint/eslint-plugin-template": "^18.0.0",
+    "@angular-eslint/schematics": "^18.0.0",
+    "@angular-eslint/template-parser": "^18.0.0",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.0.0",
-    "@types/semver": "^7.7.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^8.57.0",

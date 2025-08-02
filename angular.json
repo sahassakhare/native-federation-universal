@@ -44,6 +44,60 @@
           }
         }
       }
+    },
+    "native-federation-schematics": {
+      "projectType": "library",
+      "root": "projects/native-federation-schematics",
+      "sourceRoot": "projects/native-federation-schematics/src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/architect:concat",
+          "options": {
+            "targets": [
+              { "target": "native-federation-schematics:build-ts" },
+              { "target": "native-federation-schematics:copy-assets" }
+            ]
+          }
+        },
+        "build-ts": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/native-federation-schematics/tsconfig.json",
+            "outputPath": "dist/native-federation-schematics"
+          }
+        },
+        "copy-assets": {
+          "builder": "@angular-devkit/architect:copy",
+          "options": {
+            "assets": [
+              {
+                "input": "projects/native-federation-schematics",
+                "glob": "collection.json",
+                "output": "."
+              },
+              {
+                "input": "projects/native-federation-schematics/src",
+                "glob": "**/*.json",
+                "output": "src"
+              },
+              {
+                "input": "projects/native-federation-schematics",
+                "glob": "package.json",
+                "output": "."
+              }
+            ],
+            "outputPath": "dist/native-federation-schematics"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/native-federation-schematics/**/*.ts"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NativeFederationUpdateRuntime",
+  "title": "Native Federation Update Runtime Schema",
+  "type": "object",
+  "description": "Updates runtime code from Webpack Module Federation to Native Federation",
+  "properties": {
+    "entry": {
+      "type": "string",
+      "description": "Path to application entry file"
+    },
+    "sourcePattern": {
+      "type": "string",
+      "description": "Glob pattern for source files to transform",
+      "default": "src/**/*.{js,jsx,ts,tsx}"
+    }
+  },
+  "additionalProperties": false
+}

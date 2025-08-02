@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NativeFederationSetupBuild",
+  "title": "Native Federation Setup Build Schema",
+  "type": "object",
+  "description": "Sets up Native Federation build configuration",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Application name",
+      "x-prompt": "What is the name of your application?"
+    },
+    "bundler": {
+      "type": "string",
+      "description": "Bundler to use",
+      "default": "esbuild",
+      "enum": ["esbuild", "rollup", "vite"],
+      "x-prompt": {
+        "message": "Which bundler would you like to use?",
+        "type": "list",
+        "items": [
+          { "value": "esbuild", "label": "ESBuild (Recommended)" },
+          { "value": "rollup", "label": "Rollup" },
+          { "value": "vite", "label": "Vite" }
+        ]
+      }
+    },
+    "framework": {
+      "type": "string",
+      "description": "Frontend framework",
+      "enum": ["react", "vue", "angular", "none"],
+      "x-prompt": {
+        "message": "Which framework are you using?",
+        "type": "list",
+        "items": [
+          { "value": "react", "label": "React" },
+          { "value": "vue", "label": "Vue" },
+          { "value": "angular", "label": "Angular" },
+          { "value": "none", "label": "None / Vanilla JS" }
+        ]
+      }
+    }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

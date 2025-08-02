@@ -1,0 +1,30 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "migrate": {
+      "description": "Migrate from Webpack Module Federation to Native Federation",
+      "factory": "./src/migrate/index#migrate",
+      "schema": "./src/migrate/schema.json"
+    },
+    "convert-config": {
+      "description": "Convert webpack federation config to native federation",
+      "factory": "./src/convert-config/index#convertConfig",
+      "schema": "./src/convert-config/schema.json"
+    },
+    "update-runtime": {
+      "description": "Update runtime imports and federation calls",
+      "factory": "./src/update-runtime/index#updateRuntime",
+      "schema": "./src/update-runtime/schema.json"
+    },
+    "setup-build": {
+      "description": "Setup esbuild configuration for Native Federation",
+      "factory": "./src/setup-build/index#setupBuild",
+      "schema": "./src/setup-build/schema.json"
+    },
+    "analyze": {
+      "description": "Analyze existing webpack module federation setup",
+      "factory": "./src/analyze/index#analyze",
+      "schema": "./src/analyze/schema.json"
+    }
+  }
+}
