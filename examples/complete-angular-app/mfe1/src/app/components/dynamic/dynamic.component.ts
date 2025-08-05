@@ -148,7 +148,7 @@ export class DynamicComponent implements OnInit {
   private timeInterval: any;
 
   ngOnInit() {
-    console.log('🎯 MFE1 Dynamic Component initialized', { 
+    console.log(' MFE1 Dynamic Component initialized', { 
       title: this.title, 
       config: this.config 
     });
@@ -174,12 +174,12 @@ export class DynamicComponent implements OnInit {
       message: 'Data sent from MFE1 Dynamic Component'
     };
     
-    console.log('📤 Sending data to host:', data);
+    console.log(' Sending data to host:', data);
     this.dataChange.emit(data);
   }
 
   refreshData() {
-    console.log('🔄 Refreshing component data...');
+    console.log(' Refreshing component data...');
     
     // Simulate data refresh
     this.sampleProducts = [
@@ -200,6 +200,6 @@ export class DynamicComponent implements OnInit {
     const nextIndex = (currentIndex + 1) % themes.length;
     this.config.theme = themes[nextIndex];
     
-    console.log('🎨 Theme changed to:', this.config.theme);
+    console.log(' Theme changed to:', this.config.theme);
   }
 }

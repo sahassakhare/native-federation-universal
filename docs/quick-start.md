@@ -134,7 +134,7 @@ await build({
 });
 
 if (!isDev) {
-  console.log('✓ Remote application built successfully');
+  console.log(' Remote application built successfully');
 }
 ```
 
@@ -214,11 +214,11 @@ async function bootstrap() {
   try {
     // Initialize federation
     await initFederation('./federation.manifest.json');
-    console.log('✓ Federation initialized');
+    console.log(' Federation initialized');
 
     // Load remote modules
     const { Button, formatMessage, getCurrentTime } = await loadRemoteModule('mfe-remote', './Button');
-    console.log('✓ Remote modules loaded');
+    console.log(' Remote modules loaded');
 
     // Create application
     const app = document.getElementById('app')!;
@@ -247,12 +247,12 @@ async function bootstrap() {
 
     // Add status
     const status = document.createElement('p');
-    status.textContent = '✓ Host application loaded successfully with remote components';
+    status.textContent = ' Host application loaded successfully with remote components';
     status.style.color = 'green';
     app.appendChild(status);
 
   } catch (error) {
-    console.error('✗ Failed to initialize application:', error);
+    console.error(' Failed to initialize application:', error);
     document.getElementById('app')!.innerHTML = `
       <h1>Error</h1>
       <p>Failed to load the application: ${error.message}</p>
@@ -330,7 +330,7 @@ await build({
 copyFileSync('public/index.html', 'dist/index.html');
 
 if (!isDev) {
-  console.log('✓ Host application built successfully');
+  console.log(' Host application built successfully');
 }
 ```
 

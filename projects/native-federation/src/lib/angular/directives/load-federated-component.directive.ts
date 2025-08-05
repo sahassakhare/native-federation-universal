@@ -173,7 +173,7 @@ export class LoadFederatedComponentDirective implements OnInit, OnDestroy {
     div.style.color = '#721c24';
     div.style.borderRadius = '4px';
     div.innerHTML = `
-      <strong>❌ Failed to load federated component</strong><br>
+      <strong> Failed to load federated component</strong><br>
       <small>${this.componentInfo}</small><br>
       <em>${error}</em>
     `;

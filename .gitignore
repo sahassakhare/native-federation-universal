@@ -155,9 +155,9 @@ temp/
 .tmp/
 
 # Federation artifacts
-remoteEntry.json
-federation.manifest.json
-importmap.json
+# remoteEntry.json
+# federation.manifest.json
+# importmap.json
 
 # Native Federation specific
 .native-federation/
@@ -175,3 +175,5 @@ pnpm-lock.yaml
 
 # Keep npm package-lock.json for consistency
 !package-lock.json
+
+.angular/

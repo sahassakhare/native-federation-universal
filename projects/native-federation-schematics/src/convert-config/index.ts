@@ -14,7 +14,7 @@ export interface Schema {
 
 export function convertConfig(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('🔄 Converting webpack configuration to Native Federation...');
+    context.logger.info(' Converting webpack configuration to Native Federation...');
     
     const webpackConfigPath = options.webpackConfig || 'webpack.config.js';
     const outputPath = options.outputPath || 'federation.config.ts';
@@ -57,7 +57,7 @@ export function convertConfig(options: Schema): Rule {
     // Update package.json scripts
     updatePackageJsonScripts(tree, context);
     
-    context.logger.info(`✅ Configuration converted successfully:`);
+    context.logger.info(` Configuration converted successfully:`);
     context.logger.info(`  - Created ${outputPath}`);
     context.logger.info(`  - Created esbuild.config.js`);
     context.logger.info(`  - Updated package.json scripts`);

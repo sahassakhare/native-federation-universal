@@ -65,4 +65,4 @@ fs.writeFileSync(
   JSON.stringify(packageJson, null, 2)
 );
 
-console.log('✅ Schematics build completed!');
+console.log(' Schematics build completed!');

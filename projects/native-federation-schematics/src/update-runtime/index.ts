@@ -5,7 +5,7 @@ import * as path from 'path';
 
 export function updateRuntime(options: UpdateRuntimeSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('🔄 Updating runtime to Native Federation...');
+    context.logger.info(' Updating runtime to Native Federation...');
     
     const transformer = new RuntimeTransformer(tree, context.logger);
     
@@ -26,17 +26,17 @@ export function updateRuntime(options: UpdateRuntimeSchema): Rule {
       }
     });
     
-    context.logger.info(`✅ Transformed ${transformedCount} files`);
+    context.logger.info(` Transformed ${transformedCount} files`);
     
     // Add federation manifest
     if (!tree.exists('public/federation.manifest.json')) {
       tree.create('public/federation.manifest.json', JSON.stringify({
         remotes: {}
       }, null, 2));
-      context.logger.info('📄 Created federation.manifest.json');
+      context.logger.info(' Created federation.manifest.json');
     }
     
-    context.logger.info('✅ Runtime update completed!');
+    context.logger.info(' Runtime update completed!');
     
     return tree;
   };

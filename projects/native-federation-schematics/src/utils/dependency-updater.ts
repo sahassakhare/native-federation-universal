@@ -230,7 +230,7 @@ export class DependencyUpdater {
     if (updates.warnings.length > 0) {
       summary += '## Warnings\n\n';
       updates.warnings.forEach(warning => {
-        summary += `⚠️ ${warning}\n`;
+        summary += ` ${warning}\n`;
       });
       summary += '\n';
     }

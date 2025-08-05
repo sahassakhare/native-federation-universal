@@ -29,7 +29,7 @@ export interface Schema {
 
 export function migrate(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('🚀 Starting migration from Webpack Module Federation to Native Federation');
+    context.logger.info(' Starting migration from Webpack Module Federation to Native Federation');
     
     if (options.verbose) {
       context.logger.info('Migration options:');
@@ -63,7 +63,7 @@ export function migrate(options: Schema): Rule {
 
 function analyzeWebpackConfig(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('📊 Analyzing webpack configuration...');
+    context.logger.info(' Analyzing webpack configuration...');
     
     const webpackConfigPath = options.webpackConfig || 'webpack.config.js';
     
@@ -90,13 +90,13 @@ function analyzeWebpackConfig(options: Schema): Rule {
     const analysisPath = '.migration-analysis.json';
     tree.create(analysisPath, JSON.stringify(analysis, null, 2));
     
-    context.logger.info(`✅ Analysis complete. Found ${analysis.remotes?.length || 0} remotes and ${Object.keys(analysis.shared || {}).length} shared dependencies`);
+    context.logger.info(` Analysis complete. Found ${analysis.remotes?.length || 0} remotes and ${Object.keys(analysis.shared || {}).length} shared dependencies`);
   };
 }
 
 function updateDependencies(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('📦 Updating package.json dependencies...');
+    context.logger.info(' Updating package.json dependencies...');
     
     const packageJsonPath = 'package.json';
     if (!tree.exists(packageJsonPath)) {
@@ -126,13 +126,13 @@ function updateDependencies(options: Schema): Rule {
 
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));
     
-    context.logger.info('✅ Dependencies updated successfully');
+    context.logger.info(' Dependencies updated successfully');
   };
 }
 
 function convertWebpackConfig(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('🔄 Converting webpack configuration to Native Federation...');
+    context.logger.info(' Converting webpack configuration to Native Federation...');
     
     return schematic('convert-config', {
       project: options.project,
@@ -144,7 +144,7 @@ function convertWebpackConfig(options: Schema): Rule {
 
 function setupEsbuildConfig(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('⚙️ Setting up esbuild configuration...');
+    context.logger.info(' Setting up esbuild configuration...');
     
     return schematic('setup-build', {
       project: options.project,
@@ -155,7 +155,7 @@ function setupEsbuildConfig(options: Schema): Rule {
 
 function updateRuntimeCode(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('🔧 Updating runtime imports and federation calls...');
+    context.logger.info(' Updating runtime imports and federation calls...');
     
     return schematic('update-runtime', {
       project: options.project,
@@ -166,7 +166,7 @@ function updateRuntimeCode(options: Schema): Rule {
 
 function generateMigrationReport(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('📋 Generating migration report...');
+    context.logger.info(' Generating migration report...');
     
     const analysisPath = '.migration-analysis.json';
     if (!tree.exists(analysisPath)) {
@@ -205,14 +205,14 @@ function generateMigrationReport(options: Schema): Rule {
     // Clean up temporary files
     tree.delete(analysisPath);
     
-    context.logger.info('✅ Migration report generated: MIGRATION_REPORT.md');
+    context.logger.info(' Migration report generated: MIGRATION_REPORT.md');
   };
 }
 
 function installDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.addTask(new NodePackageInstallTask());
-    context.logger.info('📥 Dependencies will be installed...');
+    context.logger.info(' Dependencies will be installed...');
   };
 }
 
@@ -225,7 +225,7 @@ function generateMarkdownReport(report: any): string {
 - **Remotes Found**: ${report.summary.remotesFound}
 - **Shared Dependencies**: ${report.summary.sharedDependencies}
 - **Exposed Modules**: ${report.summary.exposedModules}
-- **Migration Status**: ${report.summary.migrationCompleted ? '✅ Completed' : '⏳ Dry Run'}
+- **Migration Status**: ${report.summary.migrationCompleted ? ' Completed' : '⏳ Dry Run'}
 
 ## Analysis Results
 
@@ -248,10 +248,10 @@ ${report.nextSteps.map((step: string) => `1. ${step}`).join('\n')}
 
 ## Files Modified
 
-- ✅ package.json (dependencies updated)
-- ✅ federation.config.ts (created)
-- ✅ esbuild.config.js (created)
-- ✅ Runtime imports (updated)
+-  package.json (dependencies updated)
+-  federation.config.ts (created)
+-  esbuild.config.js (created)
+-  Runtime imports (updated)
 
 ## Verification Checklist
 

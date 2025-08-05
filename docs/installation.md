@@ -300,13 +300,13 @@ import { initFederation, loadRemoteModule } from '@native-federation/core/runtim
 async function testFederation() {
   try {
     await initFederation('./federation.manifest.json');
-    console.log('✓ Federation initialized successfully');
+    console.log(' Federation initialized successfully');
     
     // Test loading a remote module (if available)
     const module = await loadRemoteModule('remote-app', './Component');
-    console.log('✓ Remote module loaded successfully');
+    console.log(' Remote module loaded successfully');
   } catch (error) {
-    console.error('✗ Federation test failed:', error);
+    console.error(' Federation test failed:', error);
   }
 }
 

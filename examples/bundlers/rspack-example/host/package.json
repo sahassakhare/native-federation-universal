@@ -1,0 +1,30 @@
+{
+  "name": "rspack-host-example",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "rspack serve",
+    "build": "rspack build",
+    "serve": "serve dist"
+  },
+  "dependencies": {
+    "@angular/animations": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "@native-federation/core": "^18.0.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.0"
+  },
+  "devDependencies": {
+    "@rspack/core": "^0.5.0",
+    "@rspack/cli": "^0.5.0",
+    "html-webpack-plugin": "^5.0.0",
+    "serve": "^14.0.0",
+    "typescript": "~5.4.0"
+  }
+}

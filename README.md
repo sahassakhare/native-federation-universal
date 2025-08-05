@@ -28,25 +28,54 @@ Native Federation revolutionizes micro-frontend development by:
 
 ## Quick Start
 
-### Installation
+### For Angular Projects (Recommended)
+
+Use Angular schematics for automatic setup:
+
+```bash
+# Install schematics
+npm install -g @native-federation/schematics
+
+# Setup host application
+ng generate @native-federation/schematics:setup --name=my-host --type=host
+
+# Setup micro-frontend
+ng generate @native-federation/schematics:setup --name=my-mfe --type=remote
+```
+
+The schematics automatically detect your build system (esbuild, webpack, Vite) and configure accordingly.
+
+### Manual Installation
 
 ```bash
 npm install @native-federation/core
 ```
 
-### Basic Configuration
+### Build System Integration
 
-**Host Application**
-```typescript
-// federation.config.ts
-import { NativeFederationPlugin, shareAll } from '@native-federation/core';
+Native Federation works with all major bundlers:
 
-export default {
+#### esbuild (Angular 17+ default)
+```javascript
+// native-federation.esbuild.js
+import { NativeFederationPlugin } from '@native-federation/core';
+import federationConfig from './federation.config.js';
+
+await esbuild.build({
+  plugins: [new NativeFederationPlugin(federationConfig)]
+});
+```
+
+#### webpack
+```javascript
+// webpack.config.js  
+const { NativeFederationPlugin } = require('@native-federation/core');
+
+module.exports = {
   plugins: [
     new NativeFederationPlugin({
       remotes: {
-        products: 'http://localhost:4201/remoteEntry.json',
-        users: 'http://localhost:4202/remoteEntry.json'
+        mfe1: 'http://localhost:4201/remoteEntry.js'
       },
       shared: shareAll({ singleton: true })
     })

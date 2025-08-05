@@ -10,9 +10,9 @@ async function buildLibrary() {
       .withTsConfig(path.join(__dirname, 'projects/native-federation/tsconfig.lib.json'))
       .build();
       
-    console.log('✅ Build completed successfully!');
+    console.log(' Build completed successfully!');
   } catch (error) {
-    console.error('❌ Build failed:', error);
+    console.error(' Build failed:', error);
     process.exit(1);
   }
 }

@@ -120,10 +120,10 @@ ng config projects.native-federation
 ### Error: "Module not found" in schematics
 **Solution:** The schematics build uses CommonJS. Check imports:
 ```typescript
-// ✅ Correct
+//  Correct
 import { Rule } from '@angular-devkit/schematics';
 
-// ❌ Incorrect
+//  Incorrect
 import { Rule } from '@angular-devkit/schematics/index.js';
 ```
 

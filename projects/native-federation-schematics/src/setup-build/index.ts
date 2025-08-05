@@ -3,7 +3,7 @@ import { SetupBuildSchema } from './schema';
 
 export function setupBuild(options: SetupBuildSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('🏗️  Setting up Native Federation build configuration...');
+    context.logger.info('  Setting up Native Federation build configuration...');
     
     // Create federation.config.js
     const federationConfig = generateFederationConfig(options);
@@ -18,8 +18,8 @@ export function setupBuild(options: SetupBuildSchema): Rule {
       tree.create('esbuild.config.js', esbuildConfig);
     }
     
-    context.logger.info('✅ Build configuration created successfully!');
-    context.logger.info('📝 Next steps:');
+    context.logger.info(' Build configuration created successfully!');
+    context.logger.info(' Next steps:');
     context.logger.info('   1. Review federation.config.js');
     context.logger.info('   2. Run "npm run build:federation" to build your application');
     

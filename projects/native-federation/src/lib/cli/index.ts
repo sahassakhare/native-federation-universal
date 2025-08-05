@@ -60,7 +60,7 @@ program
   });
 
 async function initProject(config: ProjectConfig) {
-  console.log(`🚀 Initializing ${config.type} project: ${config.name}`);
+  console.log(` Initializing ${config.type} project: ${config.name}`);
   
   try {
     // Create basic structure
@@ -72,14 +72,14 @@ async function initProject(config: ProjectConfig) {
       await createAngularFiles(config);
     }
     
-    console.log('✅ Project initialized successfully!');
+    console.log(' Project initialized successfully!');
     console.log('\nNext steps:');
     console.log('1. npm install');
     console.log('2. npm run build');
     console.log(`3. npm run serve (starts on port ${config.port})`);
     
   } catch (error) {
-    console.error('❌ Failed to initialize project:', error);
+    console.error(' Failed to initialize project:', error);
     process.exit(1);
   }
 }
@@ -260,12 +260,12 @@ async function addRemote(name: string, url: string) {
       configContent = configContent.replace(remotesPattern, `remotes: {${updatedRemotes}\n      }`);
       
       await fs.writeFile(configPath, configContent);
-      console.log('✅ Remote added successfully!');
+      console.log(' Remote added successfully!');
     } else {
-      console.error('❌ Could not find remotes section in federation.config.ts');
+      console.error(' Could not find remotes section in federation.config.ts');
     }
   } catch (error) {
-    console.error('❌ Failed to add remote:', error);
+    console.error(' Failed to add remote:', error);
   }
 }
 
@@ -310,10 +310,10 @@ export class ${componentName} {
   const filePath = `src/app/components/${name}.component.ts`;
   await fs.writeFile(filePath, template);
   
-  console.log(`✅ Component created: ${filePath}`);
+  console.log(` Component created: ${filePath}`);
   
   if (expose) {
-    console.log(`📤 Add this to your federation.config.ts exposes:
+    console.log(` Add this to your federation.config.ts exposes:
         './${componentName}': './src/app/components/${name}.component.ts'`);
   }
 }

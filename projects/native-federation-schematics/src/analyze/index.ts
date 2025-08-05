@@ -6,7 +6,7 @@ export function analyze(options: AnalyzeSchema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const analyzer = new WebpackAnalyzer();
     
-    context.logger.info('🔍 Analyzing Webpack Module Federation configuration...');
+    context.logger.info(' Analyzing Webpack Module Federation configuration...');
     
     // Read the webpack config file
     const configPath = options.configPath || 'webpack.config.js';
@@ -19,7 +19,7 @@ export function analyze(options: AnalyzeSchema): Rule {
     const result = analyzer.analyze(configContent);
     
     // Output analysis results
-    context.logger.info('\n📊 Analysis Results:');
+    context.logger.info('\n Analysis Results:');
     context.logger.info(`- Configuration Type: ${result.type}`);
     
     if (result.type !== 'unknown') {
@@ -40,7 +40,7 @@ export function analyze(options: AnalyzeSchema): Rule {
       const reportPath = options.output;
       const report = JSON.stringify(result, null, 2);
       tree.create(reportPath, report);
-      context.logger.info(`\n💾 Analysis report saved to: ${reportPath}`);
+      context.logger.info(`\n Analysis report saved to: ${reportPath}`);
     }
     
     return tree;

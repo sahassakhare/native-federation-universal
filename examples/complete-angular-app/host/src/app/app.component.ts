@@ -1,17 +1,15 @@
 // Host Application - app.component.ts
 import { Component, ViewContainerRef, ViewChild, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet, Router } from '@angular/router';
-import { loadRemoteModule } from '@native-federation/core/runtime';
+import { NativeFederationLoaderComponent } from './native-federation-loader.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [NativeFederationLoaderComponent],
   template: `
     <div class="app-container">
       <header class="app-header">
-        <h1>🏠 Host Application</h1>
+        <h1>Host Application</h1>
         <nav>
           <button (click)="navigateToProducts()">Products (MFE1)</button>
           <button (click)="navigateToUsers()">Users (MFE2)</button>
@@ -20,15 +18,8 @@ import { loadRemoteModule } from '@native-federation/core/runtime';
       </header>
       
       <main class="app-main">
-        <section class="dynamic-content">
-          <h2>Dynamic Remote Component</h2>
-          <div #dynamicContainer class="dynamic-container"></div>
-        </section>
-        
-        <section class="router-content">
-          <h2>Routed Content</h2>
-          <router-outlet></router-outlet>
-        </section>
+        <app-native-federation-loader></app-native-federation-loader>
+        <div #dynamicContainer class="dynamic-container"></div>
       </main>
       
       <footer class="app-footer">
@@ -88,43 +79,33 @@ export class AppComponent implements OnInit {
   @ViewChild('dynamicContainer', { read: ViewContainerRef })
   dynamicContainer!: ViewContainerRef;
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   async ngOnInit() {
-    console.log('🏠 Host component initialized');
+    console.log('Host component initialized');
   }
 
   async loadDynamicComponent() {
     try {
-      console.log('🔄 Loading dynamic component from MFE1...');
+      console.log('Loading dynamic component from MFE1...');
       
       // Clear existing content
       this.dynamicContainer.clear();
       
-      // Load remote component
-      const { DynamicComponent } = await loadRemoteModule('mfe1', './DynamicComponent');
+      // Show placeholder message
+      const placeholderElement = document.createElement('div');
+      placeholderElement.innerHTML = `
+        <div style="color: blue; padding: 1rem;">
+          <h3>Dynamic Component Loading</h3>
+          <p>Federation service integration will be added here</p>
+        </div>
+      `;
+      this.dynamicContainer.element.nativeElement.appendChild(placeholderElement);
       
-      // Create component instance
-      const componentRef = this.dynamicContainer.createComponent(DynamicComponent);
+      console.log('Placeholder loaded successfully');
       
-      // Pass input data
-      componentRef.instance.title = 'Data from Host Application';
-      componentRef.instance.config = {
-        theme: 'primary',
-        showActions: true
-      };
-      
-      // Subscribe to outputs (if any)
-      if (componentRef.instance.dataChange) {
-        componentRef.instance.dataChange.subscribe((data: any) => {
-          console.log('📥 Received data from remote component:', data);
-        });
-      }
-      
-      console.log('✅ Dynamic component loaded successfully');
-      
-    } catch (error) {
-      console.error('❌ Failed to load dynamic component:', error);
+    } catch (error: any) {
+      console.error('Failed to load dynamic component:', error);
       
       // Show error message to user
       this.dynamicContainer.clear();
@@ -132,7 +113,7 @@ export class AppComponent implements OnInit {
       errorElement.innerHTML = `
         <div style="color: red; padding: 1rem;">
           <h3>Failed to load remote component</h3>
-          <p>${error.message}</p>
+          <p>${error?.message || 'Unknown error'}</p>
         </div>
       `;
       this.dynamicContainer.element.nativeElement.appendChild(errorElement);
@@ -140,10 +121,10 @@ export class AppComponent implements OnInit {
   }
 
   navigateToProducts() {
-    this.router.navigate(['/products']);
+    console.log('Navigate to products - Router integration needed');
   }
 
   navigateToUsers() {
-    this.router.navigate(['/users']);
+    console.log('Navigate to users - Router integration needed');
   }
 }

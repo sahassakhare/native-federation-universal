@@ -49,7 +49,7 @@ export class RuntimeTransformer {
 
     if (modified) {
       this.tree.overwrite(filePath, fileContent);
-      this.logger.info(`✅ Transformed runtime calls in: ${filePath}`);
+      this.logger.info(` Transformed runtime calls in: ${filePath}`);
     }
 
     return modified;
@@ -86,7 +86,7 @@ await initFederation('./federation.manifest.json');
 
     fileContent = initCode + fileContent;
     this.tree.overwrite(entryPath, fileContent);
-    this.logger.info(`✅ Added runtime initialization to: ${entryPath}`);
+    this.logger.info(` Added runtime initialization to: ${entryPath}`);
   }
 
   private isRemoteModule(modulePath: string): boolean {
