@@ -7,7 +7,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const PORT = 3000;
+const PORT = 4300;
 const DIST_DIR = join(__dirname, 'dist');
 
 const mimeTypes = {
@@ -46,13 +46,13 @@ const server = createServer((req, res) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
- console.log(` React Host running at http://127.0.0.1:${PORT}`);
- console.log(` Serving from: ${DIST_DIR}`);
+ console.log(`React Host running at http://127.0.0.1:${PORT}`);
+ console.log(`Serving from: ${DIST_DIR}`);
  console.log('Press Ctrl+C to stop the server');
 });
 
 process.on('SIGINT', () => {
- console.log('\n Stopping server...');
+ console.log('\nStopping server...');
  server.close();
  process.exit(0);
 });

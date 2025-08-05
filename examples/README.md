@@ -1,221 +1,234 @@
 # Native Federation Examples
 
-This directory contains comprehensive examples demonstrating Native Federation across different frameworks, architectures, and use cases.
+This directory contains comprehensive examples demonstrating Native Federation implementation across different frameworks and use cases.
 
-##  Available Examples
+## Example Categories
 
-### 🏗️ **[bundlers/](./bundlers/)** - Build System Examples
-**Native Federation with different bundlers**
-- [webpack](./bundlers/webpack-example/) - Traditional enterprise setup
-- [esbuild](./bundlers/esbuild-example/) - Ultra-fast Angular 17+ default
-- [Vite](./bundlers/vite-example/) - Modern development experience  
-- [Rspack](./bundlers/rspack-example/) - Rust-powered webpack alternative
-- Performance comparisons and migration guides
+### Complete Applications
+- **complete-angular-app/**: Full Angular applications with real Native Federation integration
+- **angular-example/**: Basic Angular + Native Federation setup
+- **react-example/**: React applications with Native Federation
+- **mixed-example/**: Angular host with React remotes
+- **ssr-example/**: Server-side rendering with federation
 
-### 1. **complete-angular-app**  Ready
-**Full Angular application with working Native Federation**
-- Complete Angular host + MFE1 setup
-- Real component federation with ProductList
-- Working demo with dynamic loading
-- Simple HTTP servers included
+### Bundler Integration
+- **bundlers/**: Examples for different build systems (webpack, esbuild, Vite, rspack)
 
-**Quick Start:**
+## Quick Start Guide
+
+### Prerequisites
+Make sure you have Node.js 18+ installed and npm/yarn available.
+
+### Angular Applications
+
+#### Complete Angular App (Fully Functional)
 ```bash
 cd complete-angular-app
-node start-native-federation-demo.js
-# Open http://localhost:4204
+
+# Install dependencies
+cd host && npm install
+cd ../mfe1 && npm install
+
+# Option 1: Native Federation Build (Recommended)
+# Terminal 1 - Host
+cd host
+npm run build:federation
+npm run serve:federation
+
+# Terminal 2 - MFE1  
+cd mfe1
+npm run build:federation
+npm run serve:federation
+
+# Option 2: Standard Angular CLI (Development)
+# Terminal 1 - Host
+cd host && npm start
+# Terminal 2 - MFE1
+cd mfe1 && npm start -- --port 4201
 ```
 
-### 2. **angular-example**  Documentation Ready
-**Angular-to-Angular federation using schematics**
-- Demonstrates schematics-based setup
-- Angular CLI integration
-- TypeScript support
-- Hot module replacement
-
-**Quick Start:**
-```bash
-cd angular-example
-# Follow README.md for schematic setup
-```
-
-### 3. **react-example**  Documentation Ready  
-**React-to-React federation**
-- React component federation
-- JSX support with esbuild
-- React hooks across federated components
-- Shared React/ReactDOM
-
-**Quick Start:**
+### React Applications (Fully Functional)
 ```bash
 cd react-example
-# Follow README.md for manual setup
+
+# Install dependencies
+cd host && npm install
+cd ../mfe1 && npm install
+
+# Terminal 1 - MFE1 (start remote first)
+cd mfe1 && npm run dev
+
+# Terminal 2 - Host
+cd host && npm run dev
 ```
 
-### 4. **mixed-example**  Documentation Ready
-**Cross-framework federation (Angular ↔ React)**
-- Angular host loading React components
-- React host loading Angular components
-- Framework isolation and integration
-- Real-world migration scenarios
-
-**Quick Start:**
+### Mixed Framework (Angular + React)
 ```bash
-cd mixed-example  
-# Follow README.md for cross-framework setup
+cd mixed-example
+
+# Terminal 1 - React MFE
+cd react-mfe && npm install && npm run dev
+
+# Terminal 2 - Angular Host
+cd angular-host && npm install && npm run dev
 ```
 
-### 5. **ssr-example**  Documentation Ready
-**Server-Side Rendering with Native Federation**
-- Angular Universal + Native Federation
-- React SSR (Next.js) + Native Federation
-- SEO-optimized federated components
-- Progressive hydration
+## Application URLs
 
-**Quick Start:**
+| Example | Host | Remote(s) | Status |
+|---------|------|-----------|--------|
+| Complete Angular | http://localhost:4200 | http://localhost:4201 | Fully Functional |
+| React Example | http://localhost:4300 | http://localhost:4301 | Fully Functional |
+| Angular Example | http://localhost:4200 | http://localhost:4201 | Fully Functional |
+| Mixed Example | http://localhost:4200 | http://localhost:4201 | Well Documented |
+| SSR Example | http://localhost:4300 | N/A (SSR simulation) | Well Documented |
+| Bundlers Examples | Various ports | Various ports | Well Documented |
+
+## Features Demonstrated
+
+### Complete Angular App Features
+- Real Native Federation runtime integration
+- Dynamic component loading from remotes
+- Shared dependency management
+- Error handling and fallbacks
+- Federation manifest loading
+- Multi-component exposure
+- Production-ready build process
+
+### React Example Features  
+- React component federation
+- Dynamic imports with proper module resolution
+- Shopping cart functionality in federated components
+- Cross-application state management
+- Development and production builds
+
+### Angular Example Features
+- Real Native Federation runtime integration
+- Angular standalone components (Angular 18)
+- Dynamic component creation with createComponent API
+- Product catalog with interactive shopping cart
+- Full federation manifest and remote entry generation
+- Error handling with graceful fallbacks
+
+### Build Systems Supported
+- Angular CLI with esbuild (default Angular 17+)
+- Angular CLI with webpack
+- Custom esbuild configuration
+- Vite with Angular support
+- Rspack (webpack-compatible)
+
+## Configuration Files
+
+### Federation Configuration
+Each application includes:
+- `federation.config.js` - Defines remotes, exposes, and shared dependencies
+- Native Federation build scripts for production
+- Development server configuration with CORS
+
+### Example Federation Config (Host)
+```javascript
+module.exports = {
+  name: 'host',
+  remotes: {
+    'mfe1': 'http://localhost:4201/remoteEntry.js'
+  },
+  shared: {
+    '@angular/core': { singleton: true, strictVersion: true },
+    '@angular/common': { singleton: true, strictVersion: true }
+  }
+};
+```
+
+### Example Federation Config (Remote)
+```javascript
+module.exports = {
+  name: 'mfe1',
+  exposes: {
+    './ProductList': './src/app/components/product-list/product-list.component',
+    './DynamicComponent': './src/app/components/dynamic/dynamic.component'
+  },
+  shared: {
+    '@angular/core': { singleton: true, strictVersion: true },
+    '@angular/common': { singleton: true, strictVersion: true }
+  }
+};
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### 1. Remote Entry Loading Errors
 ```bash
-cd ssr-example
-# Follow README.md for SSR setup
+# Make sure remote is running first
+cd mfe1 && npm run build:federation && npm run serve:federation
+# Then start host
+cd host && npm run build:federation && npm run serve:federation
 ```
 
-##  Choose Your Example
+#### 2. Port Conflicts
+Update ports in:
+- `federation.config.js` (remotes URLs)
+- `server.js` or `package.json` scripts
+- Build scripts PORT constants
 
-### **For Beginners**
-Start with **complete-angular-app** - it's a fully working demo you can run immediately.
+#### 3. Module Resolution Errors
+- Verify exposed module paths exist
+- Check that shared dependencies versions match
+- Ensure CORS is properly configured
 
-### **For Angular Developers**
-1. **complete-angular-app** - Working demo
-2. **angular-example** - Schematics-based setup
-3. **ssr-example** - Angular Universal integration
-
-### **For React Developers**  
-1. **react-example** - Pure React federation
-2. **mixed-example** - React + Angular integration
-3. **ssr-example** - Next.js SSR integration
-
-### **For Enterprise**
-1. **mixed-example** - Cross-framework architecture
-2. **ssr-example** - SEO and performance optimization
-3. **complete-angular-app** - Production-ready patterns
-
-##  Quick Demo (30 seconds)
-
-Want to see Native Federation in action immediately?
-
+#### 4. Build Issues
 ```bash
-cd complete-angular-app
-node start-native-federation-demo.js
+# Clean and reinstall
+rm -rf dist node_modules package-lock.json
+npm install
+npm run build:federation
 ```
 
-Then open http://localhost:4204 and click "Load Product List from MFE1"
+### Development Tips
 
-##  Learning Path
+1. **Always start remotes before host applications**
+2. **Use federation builds for testing actual federation behavior**
+3. **Check browser network tab for failed module loads**
+4. **Inspect federation manifests at `/federation-manifest.json`**
 
-### **Level 1: Understanding** 
-- Read `/BEGINNERS-GUIDE.md` 
-- Run `complete-angular-app` demo
-- Understand how `remoteEntry.js` is created
+## Production Deployment
 
-### **Level 2: Implementation**
-- Try `angular-example` with schematics
-- Set up `react-example` manually
-- Compare approaches in `/SCHEMATICS-VS-MANUAL.md`
-
-### **Level 3: Advanced Patterns**
-- Explore `mixed-example` for cross-framework scenarios
-- Study `ssr-example` for performance optimization
-- Build your own custom federation setup
-
-##  Technical Features Demonstrated
-
-| Feature | complete-angular-app | angular-example | react-example | mixed-example | ssr-example |
-|---------|---------------------|----------------|---------------|---------------|-------------|
-| **Angular Federation** |  |  |  |  |  |
-| **React Federation** |  |  |  |  |  |
-| **Cross-Framework** |  |  |  |  |  |
-| **SSR Support** |  |  |  |  |  |
-| **Schematics** |  |  |  |  |  |
-| **TypeScript** |  |  |  |  |  |
-| **Working Demo** |  |  |  |  |  |
-| **Documentation** |  |  |  |  |  |
-
-##  Development Tools
-
-### **Schematics (Automated Setup)**
+### Build for Production
 ```bash
-# Install schematics globally
-npm install -g ./native-federation-schematics-1.0.0.tgz
+# Angular apps
+npm run build:federation
 
-# Create new project
-ng generate @native-federation/schematics:setup --name=my-app --type=host
+# React apps  
+npm run build
 ```
 
-### **Manual Setup (Educational)**
-Follow the step-by-step guides in each example's README.md
+### Serve Production Build
+```bash
+# Angular apps
+npm run serve:federation
 
-### **Build Tools**
-All examples use:
-- **esbuild** for fast bundling
-- **Native Federation** for micro-frontend orchestration  
-- **Simple HTTP servers** for development
-
-##  What Makes These Examples Special
-
-### **Real Working Code**
-- Not just documentation - actual runnable applications
-- Complete build processes included
-- Development servers provided
-
-### **Production Patterns**
-- Proper error handling
-- CORS configuration
-- Build optimization
-- Development vs production modes
-
-### **Educational Value**
-- Step-by-step explanations
-- Commented code
-- Architecture diagrams
-- Best practices
-
-### **Framework Agnostic**
-- Works with any bundler
-- Framework-independent approach
-- Standard web technologies
-- Future-proof architecture
-
-##  Contributing New Examples
-
-Want to add a new example? Follow this structure:
-
-```
-new-example/
-├── README.md              ← Comprehensive documentation
-├── host/                  ← Host application
-│   ├── package.json
-│   ├── build.js          ← Native Federation build
-│   ├── server.js         ← Development server
-│   └── src/
-└── mfe1/                  ← Micro-frontend
-    ├── package.json
-    ├── build.js          ← Native Federation build
-    ├── server.js         ← Development server
-    └── src/
+# React apps
+npm run serve
 ```
 
-**Requirements:**
-- Working demo (not just documentation)
-- Clear README with setup instructions
-- Use Native Federation (not Webpack Module Federation)
-- Include both manual and schematic setup (where applicable)
+### Additional Examples Features
+- **Mixed Example**: Cross-framework federation (Angular + React) with comprehensive documentation
+- **SSR Example**: Server-side rendering architecture patterns and best practices
+- **Bundlers Examples**: Integration guides for webpack, esbuild, Vite, and Rspack
 
-##  Related Resources
+## Next Steps
 
-- **Beginner's Guide**: `/BEGINNERS-GUIDE.md`
-- **Schematics Documentation**: `/docs/SCHEMATICS.md`
-- **API Documentation**: `/projects/native-federation/README.md`
-- **Manual vs Schematics**: `/SCHEMATICS-VS-MANUAL.md`
+1. **Start with complete-angular-app** - fully functional example with real federation
+2. **Try react-example** - complete React federation setup with working components
+3. **Explore angular-example** - updated with real Native Federation integration
+4. **Check bundlers/** for different build system integration patterns
+5. **Review mixed-example** for cross-framework federation architecture
+6. **Study ssr-example** for server-side rendering with federation
 
----
+## Documentation
 
-**Start with `complete-angular-app` for immediate gratification, then explore the other examples based on your needs!** 
+- [Getting Started Guide](../docs/GETTING_STARTED.md)
+- [Configuration Reference](../docs/configuration.md)
+- [Architecture Overview](../docs/architecture.md)
+- [Schematics Guide](../docs/SCHEMATICS.md)

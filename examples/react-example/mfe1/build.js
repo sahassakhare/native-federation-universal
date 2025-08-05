@@ -4,7 +4,7 @@ import federationConfig from './federation.config.js';
 
 const isDev = process.argv.includes('--dev');
 
-console.log(` Building ${federationConfig.name} MFE with Native Federation...`);
+console.log(`Building ${federationConfig.name} MFE with Native Federation...`);
 
 // Ensure dist directory exists
 if (!fs.existsSync('./dist')) {
@@ -43,7 +43,7 @@ for (const [exposeName, exposePath] of Object.entries(federationConfig.exposes))
  });
 
  exposedModules[exposeName] = `./${exposeName.replace('./', '')}.js`;
- console.log(` Built exposed module: ${exposeName} -> ${outputPath}`);
+ console.log(`Built exposed module: ${exposeName} -> ${outputPath}`);
 }
 
 // Build main application if it exists
@@ -68,7 +68,7 @@ if (fs.existsSync('./src/main.jsx')) {
  'process.env.NODE_ENV': isDev ? '"development"' : '"production"'
  }
  });
- console.log(' Built main application');
+ console.log('Built main application');
 }
 
 // Create federation manifest
@@ -116,6 +116,6 @@ export { manifest };
 
 fs.writeFileSync('./dist/remoteEntry.js', remoteEntryContent);
 
-console.log(' Build completed successfully!');
-console.log(' Exposed modules:', Object.keys(federationConfig.exposes));
-console.log(' Generated remoteEntry.js');
+console.log('Build completed successfully!');
+console.log('Exposed modules:', Object.keys(federationConfig.exposes));
+console.log('Generated remoteEntry.js');

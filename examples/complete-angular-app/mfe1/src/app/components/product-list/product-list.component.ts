@@ -19,8 +19,8 @@ export interface Product {
   template: `
     <div class="product-list-container">
       <div class="header">
-        <h2> Product Catalog</h2>
-        <p class="subtitle">Loaded from MFE1 (http://localhost:4202)</p>
+        <h2>Product Catalog</h2>
+        <p class="subtitle">Loaded from MFE1 (http://localhost:4201)</p>
       </div>
       
       <div class="filters">
@@ -58,7 +58,7 @@ export interface Product {
             </div>
             <div class="stock-status">
               <span class="status" [class]="product.inStock ? 'in-stock' : 'out-of-stock'">
-                {{ product.inStock ? ' In Stock' : ' Out of Stock' }}
+                {{ product.inStock ? 'In Stock' : 'Out of Stock' }}
               </span>
             </div>
           </div>
@@ -352,7 +352,7 @@ export class ProductListComponent implements OnInit {
   showInStockOnly = false;
 
   ngOnInit() {
-    console.log(' MFE1 Product List Component initialized');
+    console.log('MFE1 Product List Component initialized');
     this.filteredProducts = [...this.products];
   }
 
@@ -375,7 +375,7 @@ export class ProductListComponent implements OnInit {
       return categoryMatch && stockMatch;
     });
     
-    console.log(' Filters applied:', {
+    console.log('Filters applied:', {
       category: this.selectedCategory,
       inStockOnly: this.showInStockOnly,
       results: this.filteredProducts.length
@@ -383,13 +383,13 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    console.log(' Adding to cart:', product.name);
+    console.log('Adding to cart:', product.name);
     // In a real app, this would add to a cart service
     alert(`Added "${product.name}" to cart!`);
   }
 
   viewDetails(product: Product) {
-    console.log(' Viewing details for:', product.name);
+    console.log('Viewing details for:', product.name);
     // In a real app, this would navigate to product details
     alert(`Viewing details for "${product.name}"`);
   }

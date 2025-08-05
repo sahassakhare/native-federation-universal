@@ -7,7 +7,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const PORT = 3001;
+const PORT = 4301;
 const DIST_DIR = join(__dirname, 'dist');
 
 const mimeTypes = {
@@ -48,14 +48,14 @@ const server = createServer((req, res) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
- console.log(` React MFE1 running at http://127.0.0.1:${PORT}`);
- console.log(` Serving from: ${DIST_DIR}`);
- console.log(` Remote entry: http://127.0.0.1:${PORT}/remoteEntry.js`);
+ console.log(`React MFE1 running at http://127.0.0.1:${PORT}`);
+ console.log(`Serving from: ${DIST_DIR}`);
+ console.log(`Remote entry: http://127.0.0.1:${PORT}/remoteEntry.js`);
  console.log('Press Ctrl+C to stop the server');
 });
 
 process.on('SIGINT', () => {
- console.log('\n Stopping MFE1 server...');
+ console.log('\nStopping MFE1 server...');
  server.close();
  process.exit(0);
 });

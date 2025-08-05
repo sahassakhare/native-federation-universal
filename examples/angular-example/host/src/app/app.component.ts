@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FederationLoaderComponent } from './federation-loader.component';
 
 @Component({
  selector: 'app-root',
+ standalone: true,
+ imports: [CommonModule, FederationLoaderComponent],
  template: `
  <div class="app-container">
  <header class="app-header">

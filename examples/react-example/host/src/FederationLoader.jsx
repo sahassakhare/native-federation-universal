@@ -9,7 +9,7 @@ const FederationLoader = () => {
  const remoteComponentRef = useRef(null);
 
  useEffect(() => {
- console.log(' Federation Loader initialized');
+ console.log('Federation Loader initialized');
  }, []);
 
  const loadRemoteComponent = async () => {
@@ -21,7 +21,7 @@ const FederationLoader = () => {
  setRemoteLoaded(false);
 
  try {
- console.log(' Loading remote component from MFE1...');
+ console.log('Loading remote component from MFE1...');
 
  // Clear any existing remote component
  if (remoteComponentRef.current) {
@@ -31,36 +31,36 @@ const FederationLoader = () => {
  }
 
  // Load the remote entry
- const remoteEntryUrl = 'http://localhost:3001/remoteEntry.js';
- console.log(' Loading remote entry:', remoteEntryUrl);
+ const remoteEntryUrl = 'http://localhost:4301/remoteEntry.js';
+ console.log('Loading remote entry:', remoteEntryUrl);
 
  const remoteEntry = await import(remoteEntryUrl);
- console.log(' Remote entry loaded successfully');
+ console.log('Remote entry loaded successfully');
 
  // Initialize the remote
  if (typeof remoteEntry.init === 'function') {
  await remoteEntry.init();
- console.log(' Remote initialized');
+ console.log('Remote initialized');
  }
 
  // Get the remote component
  if (typeof remoteEntry.get === 'function') {
  const remoteModule = await remoteEntry.get('./ProductList');
- console.log(' Remote module loaded:', remoteModule);
+ console.log('Remote module loaded:', remoteModule);
 
  if (remoteModule && remoteModule.default) {
  // This is a simplified approach - in a real scenario you'd use proper React dynamic loading
  const componentHtml = `
  <div class="remote-component">
- <h4> Remote React Component Loaded!</h4>
+ <h4>Remote React Component Loaded!</h4>
  <p>This component was loaded from MFE1 at runtime using Native Federation.</p>
  <div class="component-info">
  <strong>Component:</strong> ProductList<br>
- <strong>Source:</strong> http://localhost:3001<br>
+ <strong>Source:</strong> http://localhost:4301<br>
  <strong>Technology:</strong> React + Native Federation
  </div>
  <div class="react-demo">
- <h5> Sample Product List</h5>
+ <h5>Sample Product List</h5>
  <div class="product-grid">
  <div class="product-card">
  <div class="product-emoji"></div>
@@ -144,7 +144,7 @@ const FederationLoader = () => {
  remoteComponentRef.current = element;
  setRemoteLoaded(true);
 
- console.log(' Remote component rendered successfully');
+ console.log('Remote component rendered successfully');
  } else {
  throw new Error('ProductList component not found in remote module');
  }
@@ -153,14 +153,14 @@ const FederationLoader = () => {
  }
 
  } catch (error) {
- console.error(' Failed to load remote component:', error);
+ console.error('Failed to load remote component:', error);
  setError(error.message || 'Unknown error occurred');
  setErrorDetails(error.stack || JSON.stringify(error, null, 2));
 
  // Show fallback content
  const fallbackHtml = `
  <div class="fallback-component">
- <h4> Fallback Content</h4>
+ <h4>Fallback Content</h4>
  <p>Remote component could not be loaded. This is fallback content from the host application.</p>
  <div class="fallback-info">
  <strong>Expected Remote:</strong> ProductList from MFE1<br>
@@ -200,8 +200,8 @@ const FederationLoader = () => {
  return (
  <div style={styles.federationContainer}>
  <div style={styles.remoteInfo}>
- <h3> Remote MFE1 (React)</h3>
- <p>Loading remote React component from: <code>http://localhost:3001</code></p>
+ <h3>Remote MFE1 (React)</h3>
+ <p>Loading remote React component from: <code>http://localhost:4301</code></p>
  <button
  onClick={loadRemoteComponent}
  disabled={loading}
@@ -221,7 +221,7 @@ const FederationLoader = () => {
 
  {error && (
  <div style={styles.error}>
- <h4> Failed to load remote component</h4>
+ <h4>Failed to load remote component</h4>
  <p>{error}</p>
  <details>
  <summary>Error Details</summary>

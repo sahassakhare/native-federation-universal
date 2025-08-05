@@ -5,6 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:federation": "node native-federation.build.js",
+    "build:dev": "node native-federation.build.js --dev",
+    "serve:federation": "npx http-server dist -p 4201 -c-1 --cors",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -26,6 +29,8 @@
     "@angular/compiler-cli": "^18.0.0",
     "@angular-devkit/build-angular": "^18.0.0",
     "@native-federation/core": "file:../../../native-federation-core-1.0.0.tgz",
+    "esbuild": "^0.20.0",
+    "http-server": "^14.1.1",
     "typescript": "~5.4.0"
   }
 }

@@ -4,8 +4,8 @@ This example demonstrates Native Federation between React applications using Rea
 
 ## Architecture
 
-- **Host Application** (port 3000): React host that loads remote components
-- **MFE1** (port 3001): React micro-frontend exposing ProductList component
+- **Host Application** (port 4300): React host that loads remote components
+- **MFE1** (port 4301): React micro-frontend exposing ProductList component
 
 ## Structure
 
@@ -52,7 +52,7 @@ cd mfe1 && npm run dev
 cd host && npm run dev
 ```
 
-3. Open http://localhost:3000 to see the host application
+3. Open http://localhost:4300 to see the host application
 
 ### Option 2: Manual Build and Start
 
@@ -86,7 +86,7 @@ cd host && npm start
 export default {
  name: 'react-host',
  remotes: {
- 'mfe1': 'http://localhost:3001/remoteEntry.js'
+ 'mfe1': 'http://localhost:4301/remoteEntry.js'
  },
  shared: {
  'react': { singleton: true, strictVersion: false },
@@ -115,7 +115,7 @@ The host application dynamically loads the remote component:
 
 ```javascript
 // Load remote entry
-const remoteEntry = await import('http://localhost:3001/remoteEntry.js');
+const remoteEntry = await import('http://localhost:4301/remoteEntry.js');
 await remoteEntry.init();
 
 // Get remote component
@@ -144,9 +144,9 @@ Each application uses esbuild to:
 
 ## URLs
 
-- Host Application: http://localhost:3000
-- MFE1 Standalone: http://localhost:3001
-- MFE1 Remote Entry: http://localhost:3001/remoteEntry.js
+- Host Application: http://localhost:4300
+- MFE1 Standalone: http://localhost:4301
+- MFE1 Remote Entry: http://localhost:4301/remoteEntry.js
 
 ## Technologies Used
 

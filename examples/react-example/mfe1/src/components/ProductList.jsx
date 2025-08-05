@@ -45,7 +45,7 @@ const ProductList = () => {
 
  return (
  <div style={styles.productContainer}>
- <h3> Product List (from React MFE1)</h3>
+ <h3>Product List (from React MFE1)</h3>
  <div style={styles.productGrid}>
  {products.map((product) => (
  <div key={product.id} style={styles.productCard}>
@@ -65,7 +65,7 @@ const ProductList = () => {
 
  {cartItems.length > 0 && (
  <div style={styles.cartSummary}>
- <h4> Cart Summary</h4>
+ <h4>Cart Summary</h4>
  {cartItems.map((item, index) => (
  <div key={index} style={styles.cartItem}>
  {item.name} - ${item.price}
@@ -80,7 +80,7 @@ const ProductList = () => {
  <div style={styles.mfeInfo}>
  <small>
   This component is loaded from React MFE1 using Native Federation<br/>
- Source: http://localhost:3001<br/>
+ Source: http://localhost:4301<br/>
  Technology: React Functional Component with Hooks
  </small>
  </div>

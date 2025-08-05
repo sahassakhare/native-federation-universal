@@ -4,7 +4,7 @@ import federationConfig from './federation.config.js';
 
 const isDev = process.argv.includes('--dev');
 
-console.log(` Building ${federationConfig.name} with Native Federation...`);
+console.log(`Building ${federationConfig.name} with Native Federation...`);
 
 // Ensure dist directory exists
 if (!fs.existsSync('./dist')) {
@@ -46,5 +46,5 @@ const manifest = {
 
 fs.writeFileSync('./dist/federation-manifest.json', JSON.stringify(manifest, null, 2));
 
-console.log(' Build completed successfully!');
-console.log(' Remote connections:', Object.keys(federationConfig.remotes || {}));
+console.log('Build completed successfully!');
+console.log('Remote connections:', Object.keys(federationConfig.remotes || {}));

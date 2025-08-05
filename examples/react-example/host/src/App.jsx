@@ -11,7 +11,7 @@ const App = () => {
  return (
  <div style={styles.appContainer}>
  <header style={styles.appHeader}>
- <h1> React Host Application</h1>
+ <h1>React Host Application</h1>
  <p>Native Federation React Example</p>
  </header>
 

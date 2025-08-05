@@ -1,0 +1,66 @@
+{
+  "fromName": "native-federation",
+  "toName": "my-custom-federation",
+  "patterns": {
+    "native-federation": "{NEW_NAME}",
+    "Native Federation": "{NEW_NAME_TITLE}",
+    "NATIVE_FEDERATION": "{NEW_NAME_UPPER}",
+    "native_federation": "{NEW_NAME_UNDERSCORE}",
+    "NativeFederation": "{NEW_NAME_PASCAL}",
+    "nativeFederation": "{NEW_NAME_CAMEL}",
+    "@native-federation": "@{NEW_NAME}",
+    "native federation": "{NEW_NAME_SPACED}"
+  },
+  "filePatterns": [
+    "**/*.js",
+    "**/*.ts",
+    "**/*.jsx",
+    "**/*.tsx",
+    "**/*.json",
+    "**/*.md",
+    "**/*.html",
+    "**/*.css",
+    "**/*.scss",
+    "**/*.yaml",
+    "**/*.yml",
+    "**/*.xml",
+    "**/*.config.js",
+    "**/*.config.ts"
+  ],
+  "excludePatterns": [
+    "node_modules/**",
+    "dist/**",
+    ".git/**",
+    "**/*.log",
+    "scripts/rename-library.js",
+    "backup-*/**"
+  ],
+  "directoryRenames": [
+    {
+      "from": "native-federation",
+      "to": "{NEW_NAME}"
+    }
+  ],
+  "packageRenames": [
+    {
+      "from": "@native-federation/core",
+      "to": "@{NEW_NAME}/core"
+    },
+    {
+      "from": "@native-federation/schematics", 
+      "to": "@{NEW_NAME}/schematics"
+    },
+    {
+      "from": "native-federation-schematics",
+      "to": "{NEW_NAME}-schematics"
+    }
+  ],
+  "customReplacements": {
+    "description": "Add any custom find-replace patterns here",
+    "examples": {
+      "website-url": "https://native-federation.com",
+      "documentation-url": "https://docs.native-federation.com",
+      "github-url": "https://github.com/native-federation/core"
+    }
+  }
+}

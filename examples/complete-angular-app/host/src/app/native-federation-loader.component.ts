@@ -211,7 +211,7 @@ export class NativeFederationLoaderComponent implements OnInit {
 
   async loadManifest() {
     try {
-      const response = await fetch('http://localhost:4202/federation-manifest.json');
+      const response = await fetch('http://localhost:4201/federation-manifest.json');
       const manifest = await response.json();
       this.manifestData = JSON.stringify(manifest, null, 2);
       this.statusMessage = 'Loaded federation manifest from MFE1';
@@ -227,42 +227,37 @@ export class NativeFederationLoaderComponent implements OnInit {
       this.statusMessage = 'Loading remote module using Native Federation...';
       this.clearContent();
 
-      // Step 1: Load the Native Federation remote entry
+      // Load the Native Federation remote entry
       this.statusMessage = 'Loading Native Federation remote entry...';
-      const remoteEntryModule = await import('http://localhost:4202/remoteEntry.js');
+      const remoteEntryModule = await import('http://localhost:4201/remoteEntry.js');
       
-      // Step 2: Initialize the remote
+      // Initialize the remote
       this.statusMessage = 'Initializing Native Federation remote...';
-      await remoteEntryModule.init();
+      if (remoteEntryModule.init) {
+        await remoteEntryModule.init();
+      }
 
-      // Step 3: Get the exposed module
+      // Get the exposed module
       this.statusMessage = 'Loading ProductList module...';
       const productListModule = await remoteEntryModule.get('./ProductList');
 
-      // Step 4: Create and render the component
+      // Create and render the component
       this.statusMessage = 'Rendering remote component...';
       console.log('Product module exports:', Object.keys(productListModule));
       
-      if (productListModule.ProductListComponent) {
-        // Create component with proper Angular injection context
-        try {
-          const componentRef = this.remoteContainer.createComponent(productListModule.ProductListComponent);
-          
-          // Trigger change detection for the new component
-          componentRef.changeDetectorRef.detectChanges();
-          
-          this.loadStatus = 'success';
-          this.statusMessage = 'Successfully loaded ProductList using Native Federation!';
-        } catch (injectionError: any) {
-          // If injection fails, try to render the component manually
-          console.warn('Injection context error, trying manual render:', injectionError);
-          this.renderComponentManually(productListModule.ProductListComponent);
-          
-          this.loadStatus = 'success';
-          this.statusMessage = 'Successfully loaded ProductList (manual render) using Native Federation!';
-        }
+      // Clear container and create component
+      this.remoteContainer.clear();
+      
+      // Look for the component in the module
+      const ComponentClass = productListModule.ProductListComponent || productListModule.default;
+      
+      if (ComponentClass) {
+        const componentRef = this.remoteContainer.createComponent(ComponentClass);
+        componentRef.changeDetectorRef.detectChanges();
+        
+        this.loadStatus = 'success';
+        this.statusMessage = 'Successfully loaded ProductList using Native Federation!';
       } else {
-        // Log available exports to help debug
         const availableExports = Object.keys(productListModule).join(', ');
         throw new Error(`ProductListComponent not found. Available exports: ${availableExports}`);
       }

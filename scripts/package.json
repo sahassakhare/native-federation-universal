@@ -1,0 +1,23 @@
+{
+  "name": "native-federation-scripts",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Utility scripts for Native Federation library management",
+  "scripts": {
+    "rename": "node rename-library.js",
+    "rename:dry-run": "node rename-library.js --dry-run",
+    "test-rename": "node rename-library.js --from 'native-federation' --to 'test-federation' --dry-run --verbose",
+    "test": "node test-rename.js",
+    "test:keep-env": "node test-rename.js --keep-test-env"
+  },
+  "dependencies": {
+    "glob": "^10.3.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "native-federation",
+    "rename",
+    "utility",
+    "library-management"
+  ]
+}

@@ -43,26 +43,38 @@ This example predates the standardized Angular CLI integration and serves as a r
 
 ## Quick Start
 
-### Option 1: Start Individual Apps
+### Prerequisites
+```bash
+# Install dependencies for both applications
+cd host && npm install
+cd ../mfe1 && npm install
+```
 
+### Option 1: Build and Serve with Native Federation
+```bash
+# Terminal 1 - Build and serve Host App  
+cd host
+npm run build:federation
+npm run serve:federation
+
+# Terminal 2 - Build and serve MFE1 App
+cd mfe1  
+npm run build:federation
+npm run serve:federation
+```
+
+### Option 2: Standard Angular CLI (Development)
 ```bash
 # Terminal 1 - Start Host App
 cd host
-npm install
-npm run dev
+npm start
 
 # Terminal 2 - Start MFE1 App  
 cd mfe1
-npm install
-npm run dev
+npm start -- --port 4201
 ```
 
-### Option 2: Use Demo Script
-
-```bash
-# Start both applications
-node start-demo.js
-```
+**Note:** For full Native Federation functionality, use Option 1 with the federation build scripts.
 
 ## URLs
 

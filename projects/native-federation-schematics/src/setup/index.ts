@@ -57,6 +57,8 @@ function setupAngularProject(tree: Tree, context: SchematicContext, options: Set
   context.logger.info('1. Install dependencies: npm install');
   context.logger.info('2. Build your project: ng build');
   context.logger.info('3. Serve your project: ng serve');
+  context.logger.info('\\nNote: Native Federation integrates directly with Angular CLI.');
+  context.logger.info('No custom build scripts are needed for Angular projects.');
 }
 
 function setupVanillaProject(tree: Tree, context: SchematicContext, options: SetupSchema): void {
@@ -325,16 +327,23 @@ function detectAngularBuildSystem(tree: Tree): string {
   return 'esbuild'; // Default fallback
 }
 
-function setupAngularEsbuild(tree: Tree, context: SchematicContext, options: SetupSchema): void {
-  // Create esbuild plugin for Native Federation
-  const esbuildPlugin = createAngularEsbuildPlugin(options);
-  tree.create('federation.esbuild.js', esbuildPlugin);
-  context.logger.info(' Created esbuild plugin for Native Federation');
-
-  // Create build hooks
-  const buildHooks = createAngularBuildHooks(options);
-  tree.create('build-hooks.js', buildHooks);
-  context.logger.info(' Created build hooks for Angular + esbuild');
+function setupAngularEsbuild(tree: Tree, context: SchematicContext, _options: SetupSchema): void {
+  // For Angular 17+ with esbuild, we don't need custom build scripts
+  // The Native Federation integration happens through Angular CLI hooks
+  context.logger.info('Angular 17+ uses esbuild by default - no custom build scripts needed');
+  context.logger.info('Native Federation will integrate directly with Angular CLI');
+  
+  // Only update angular.json if necessary for federation configuration
+  const angularJsonPath = 'angular.json';
+  if (tree.exists(angularJsonPath)) {
+    const angularJsonContent = tree.read(angularJsonPath)?.toString() || '{}';
+    const angularJson = JSON.parse(angularJsonContent);
+    
+    // Add a comment about Native Federation integration
+    angularJson._comment = 'Native Federation is configured. Use standard ng build/serve commands.';
+    
+    tree.overwrite(angularJsonPath, JSON.stringify(angularJson, null, 2));
+  }
 }
 
 function setupAngularWebpack(tree: Tree, context: SchematicContext, options: SetupSchema): void {
@@ -358,7 +367,7 @@ function setupAngularVite(tree: Tree, context: SchematicContext, options: SetupS
 }
 
 // Angular-specific functions
-function updateAngularJsonForWebpack(tree: Tree, context: SchematicContext, options: SetupSchema): void {
+function updateAngularJsonForWebpack(tree: Tree, context: SchematicContext, _options: SetupSchema): void {
   const angularJsonPath = 'angular.json';
   if (!tree.exists(angularJsonPath)) {
     context.logger.warn('angular.json not found. Make sure this is an Angular project.');
@@ -395,7 +404,7 @@ function updateAngularJsonForWebpack(tree: Tree, context: SchematicContext, opti
   context.logger.info(' Updated angular.json for webpack + Native Federation');
 }
 
-function updateAngularJsonForVite(tree: Tree, context: SchematicContext, options: SetupSchema): void {
+function updateAngularJsonForVite(tree: Tree, context: SchematicContext, _options: SetupSchema): void {
   const angularJsonPath = 'angular.json';
   if (!tree.exists(angularJsonPath)) {
     return; // Vite projects might not use angular.json
@@ -419,139 +428,12 @@ function updateAngularJsonForVite(tree: Tree, context: SchematicContext, options
   context.logger.info(' Updated angular.json for Vite + Native Federation');
 }
 
-function createAngularEsbuildPlugin(options: SetupSchema): string {
-  return `// Angular + esbuild + Native Federation Plugin
-import { build } from 'esbuild';
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import federationConfig from './federation.config.js';
+// Removed createAngularEsbuildPlugin - not needed for Angular CLI integration
+// Removed createAngularBuildHooks - not needed for Angular CLI integration
 
-export async function buildWithNativeFederation() {
-  console.log('Building Angular with Native Federation (esbuild)...');
-  
-  // Ensure dist directory exists
-  if (!existsSync('./dist')) {
-    mkdirSync('./dist', { recursive: true });
-  }
-
-  // Build main application
-  await build({
-    entryPoints: ['./src/main.ts'],
-    bundle: true,
-    platform: 'browser',
-    target: 'es2022',
-    format: 'esm',
-    outdir: './dist',
-    sourcemap: true,
-    minify: process.env['NODE_ENV'] === 'production',
-    loader: {
-      '.html': 'text',
-      '.css': 'css'
-    },
-    external: ['@angular/*'], // Keep Angular as external for federation
-    plugins: [
-      {
-        name: 'native-federation',
-        setup(build) {
-          // Custom plugin logic for Native Federation
-          build.onEnd(async (result) => {
-            if (result.errors.length === 0) {
-              await generateFederationAssets();
-            }
-          });
-        }
-      }
-    ]
-  });
-
-  console.log('Angular build completed with Native Federation');
-}
-
-async function generateFederationAssets() {
-  ${options.type === 'remote' ? `
-  // Generate remote entry for federation
-  const remoteEntryContent = \`
-  // Native Federation Remote Entry for \${federationConfig.name}
-  export const init = async () => {
-    console.log('[Native Federation] Initialized \${federationConfig.name}');
-  };
-
-  export const get = async (module) => {
-    console.log('[Native Federation] Loading module:', module);
-    
-    const moduleMap = {
-      './Component': () => import('./main.js').then(m => m.Component)
-    };
-    
-    if (!moduleMap[module]) {
-      throw new Error(\\\`Module \\\${module} not exposed by \${federationConfig.name}\\\`);
-    }
-    
-    return moduleMap[module]();
-  };
-  \`;
-
-  writeFileSync('./dist/remoteEntry.js', remoteEntryContent);
-  
-  // Create federation manifest
-  const manifest = {
-    name: federationConfig.name,
-    remoteEntry: './remoteEntry.js',
-    exposes: federationConfig.exposes || {}
-  };
-  
-  writeFileSync('./dist/federation-manifest.json', JSON.stringify(manifest, null, 2));
-  ` : `
-  // Host application - create importmap for remotes
-  const importMap = {
-    imports: {}
-  };
-  
-  if (federationConfig.remotes) {
-    for (const [name, url] of Object.entries(federationConfig.remotes)) {
-      importMap.imports[name] = url;
-    }
-  }
-  
-  writeFileSync('./dist/importmap.json', JSON.stringify(importMap, null, 2));
-  `}
-}
-
-if (import.meta.url === \`file://\${process.argv[1]}\`) {
-  buildWithNativeFederation().catch(console.error);
-}
-`;
-}
-
-function createAngularBuildHooks(options: SetupSchema): string {
-  return `// Angular Build Hooks for Native Federation
-const { execSync } = require('child_process');
-
-// Pre-build hook
-function preBuild() {
-  console.log('Pre-build: Preparing Native Federation assets...');
-  // Add any pre-build logic here
-}
-
-// Post-build hook
-function postBuild() {
-  console.log('Post-build: Processing Native Federation assets...');
-  
-  try {
-    // Run the Native Federation build process
-    execSync('node federation.esbuild.js', { stdio: 'inherit' });
-    console.log('Native Federation assets generated successfully');
-  } catch (error) {
-    console.error('Failed to generate Native Federation assets:', error);
-    process.exit(1);
-  }
-}
-
-module.exports = {
-  preBuild,
-  postBuild
-};
-`;
-}
+// These functions were creating custom build scripts which go against
+// the principle of using standard Angular CLI for Angular projects.
+// Native Federation should integrate directly with Angular CLI, not require custom scripts.
 
 function createAngularViteConfig(options: SetupSchema): string {
   return `// Angular + Vite + Native Federation Configuration
@@ -623,7 +505,7 @@ export default defineConfig({
 `;
 }
 
-function createAngularWebpackConfig(options: SetupSchema): string {
+function createAngularWebpackConfig(_options: SetupSchema): string {
   return `// Angular + Native Federation Webpack Configuration
 const { NativeFederationPlugin } = require('@native-federation/core');
 const federationConfig = require('./federation.config.js');
@@ -643,7 +525,7 @@ module.exports = {
 `;
 }
 
-function updateAngularPackageJson(tree: Tree, context: SchematicContext, options: SetupSchema, buildSystem: string): void {
+function updateAngularPackageJson(tree: Tree, context: SchematicContext, _options: SetupSchema, buildSystem: string): void {
   const packageJsonPath = 'package.json';
   
   if (!tree.exists(packageJsonPath)) {
@@ -666,16 +548,26 @@ function updateAngularPackageJson(tree: Tree, context: SchematicContext, options
       packageJson.devDependencies['@angular-builders/custom-webpack'] = '^18.0.0';
       break;
     case 'esbuild':
-      packageJson.devDependencies['esbuild'] = '^0.20.0';
-      // Add build script for esbuild
-      packageJson.scripts = packageJson.scripts || {};
-      packageJson.scripts['build:federation'] = 'node federation.esbuild.js';
-      packageJson.scripts['postbuild'] = 'node build-hooks.js';
+      // For Angular 17+ with esbuild, no additional dependencies needed
+      // Angular CLI handles esbuild internally
+      context.logger.info('Using Angular CLI built-in esbuild support');
       break;
     case 'vite':
       packageJson.devDependencies['vite'] = '^5.0.0';
       packageJson.devDependencies['@analogjs/vite-plugin-angular'] = '^1.0.0';
       break;
+  }
+  
+  // Ensure standard Angular scripts are present
+  packageJson.scripts = packageJson.scripts || {};
+  if (!packageJson.scripts.ng) {
+    packageJson.scripts.ng = 'ng';
+  }
+  if (!packageJson.scripts.start) {
+    packageJson.scripts.start = 'ng serve';
+  }
+  if (!packageJson.scripts.build) {
+    packageJson.scripts.build = 'ng build';
   }
   
   tree.overwrite(packageJsonPath, JSON.stringify(packageJson, null, 2));

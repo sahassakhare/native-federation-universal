@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef, createComponent, EnvironmentInjector, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -164,6 +164,11 @@ export class FederationLoaderComponent implements OnInit {
  remoteLoaded = false;
  remoteComponentRef: ComponentRef<any> | null = null;
 
+ constructor(
+   private injector: Injector,
+   private environmentInjector: EnvironmentInjector
+ ) {}
+
  ngOnInit() {
  console.log(' Federation Loader initialized');
  }
@@ -206,42 +211,18 @@ export class FederationLoaderComponent implements OnInit {
 
  // Create the remote component
  if (remoteModule && remoteModule.ProductComponent) {
- // For Angular components, we need to handle this differently
- // This is a simplified approach - in a real scenario you'd use proper Angular dynamic loading
- const componentHtml = `
- <div class="remote-component">
- <h4> Remote Angular Component Loaded!</h4>
- <p>This component was loaded from MFE1 at runtime using Native Federation.</p>
- <div class="component-info">
- <strong>Component:</strong> ProductComponent<br>
- <strong>Source:</strong> http://localhost:4201<br>
- <strong>Technology:</strong> Angular + Native Federation
- </div>
- </div>
- `;
+ // Create the remote component dynamically using Angular's createComponent
+ const componentRef = createComponent(remoteModule.ProductComponent, {
+ environmentInjector: this.environmentInjector,
+ elementInjector: this.injector
+ });
 
- // Create a simple DOM element to show the remote content
- const element = document.createElement('div');
- element.innerHTML = componentHtml;
- element.querySelector('.remote-component')!.setAttribute('style', `
- background: linear-gradient(135deg, #4caf50, #81c784);
- color: white;
- padding: 25px;
- border-radius: 8px;
- box-shadow: 0 4px 8px rgba(0,0,0,0.1);
- `);
- element.querySelector('.component-info')!.setAttribute('style', `
- background: rgba(255,255,255,0.1);
- padding: 15px;
- border-radius: 4px;
- margin-top: 15px;
- font-family: monospace;
- `);
-
- this.remoteContainer.element.nativeElement.appendChild(element);
+ // Insert the component into the view
+ this.remoteContainer.insert(componentRef.hostView);
+ this.remoteComponentRef = componentRef;
  this.remoteLoaded = true;
 
- console.log(' Remote component rendered successfully');
+ console.log(' Remote Angular component rendered successfully');
  } else {
  throw new Error('ProductComponent not found in remote module');
  }

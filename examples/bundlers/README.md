@@ -4,28 +4,28 @@ This directory contains examples of using Native Federation with different bundl
 
 ## Available Examples
 
-### 🔧 [Webpack Example](./webpack-example/)
+### [Webpack Example](./webpack-example/)
 Traditional webpack setup with Native Federation for enterprise Angular applications.
 - **Use Case**: Large enterprise applications, existing webpack infrastructure
 - **Performance**: Baseline (traditional)
 - **Compatibility**: Extensive plugin ecosystem
 - **Learning Curve**: Moderate to high
 
-### ⚡ [esbuild Example](./esbuild-example/)
+### [esbuild Example](./esbuild-example/)
 Ultra-fast esbuild setup (Angular 17+ default bundler).
 - **Use Case**: Modern Angular applications, development speed priority
 - **Performance**: Extremely fast (~500ms builds)
 - **Compatibility**: Limited plugin ecosystem
 - **Learning Curve**: Low
 
-### 🚀 [Vite Example](./vite-example/)
+### [Vite Example](./vite-example/)
 Modern development experience with Vite and instant HMR.
 - **Use Case**: Modern applications, best DX priority
 - **Performance**: Instant dev server, fast builds
 - **Compatibility**: Rich plugin ecosystem
 - **Learning Curve**: Low to moderate
 
-### 🦀 [Rspack Example](./rspack-example/)
+### [Rspack Example](./rspack-example/)
 Rust-powered bundler with webpack compatibility.
 - **Use Case**: Migration from webpack, performance + compatibility
 - **Performance**: 10x faster than webpack
@@ -45,31 +45,31 @@ Rust-powered bundler with webpack compatibility.
 
 | Feature | webpack | esbuild | Vite | Rspack |
 |---------|---------|---------|------|--------|
-| **TypeScript** | ✅ ts-loader | ✅ Built-in | ✅ Built-in | ✅ SWC loader |
-| **CSS Processing** | ✅ Loaders | ✅ Basic | ✅ Advanced | ✅ Lightning CSS |
-| **Code Splitting** | ✅ Advanced | ✅ Basic | ✅ Advanced | ✅ Advanced |
-| **Tree Shaking** | ✅ Good | ✅ Excellent | ✅ Excellent | ✅ Good |
-| **Plugin Ecosystem** | ✅ Huge | ❌ Limited | ✅ Rich | ✅ webpack compatible |
-| **Angular Support** | ✅ Native | ✅ CLI default | ✅ @analogjs | ✅ Compatible |
+| **TypeScript** | Yes (ts-loader) | Yes (Built-in) | Yes (Built-in) | Yes (SWC loader) |
+| **CSS Processing** | Yes (Loaders) | Yes (Basic) | Yes (Advanced) | Yes (Lightning CSS) |
+| **Code Splitting** | Yes (Advanced) | Yes (Basic) | Yes (Advanced) | Yes (Advanced) |
+| **Tree Shaking** | Yes (Good) | Yes (Excellent) | Yes (Excellent) | Yes (Good) |
+| **Plugin Ecosystem** | Yes (Huge) | Limited | Yes (Rich) | Yes (webpack compatible) |
+| **Angular Support** | Yes (Native) | Yes (CLI default) | Yes (@analogjs) | Yes (Compatible) |
 
 ## Native Federation Benefits Across All Bundlers
 
-### 🌐 Standards-Based
+### Standards-Based
 - Uses native ES modules instead of bundler-specific formats
 - Works with any bundler that supports ES modules
 - Future-proof architecture
 
-### 📦 Smaller Bundles
+### Smaller Bundles
 - No federation runtime overhead
 - Better tree-shaking than Module Federation
 - Shared dependencies through import maps
 
-### ⚡ Better Performance
+### Better Performance
 - Direct ES module imports
 - No wrapper code generation
 - Optimal caching strategies
 
-### 🔧 Bundler Agnostic
+### Bundler Agnostic
 - Same federation config works across all bundlers
 - Easy migration between build tools
 - No vendor lock-in

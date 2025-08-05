@@ -9,7 +9,7 @@ export default defineConfig({
     {
       name: 'native-federation',
       buildStart() {
-        console.log('🚀 Building Angular with Vite + Native Federation...');
+        console.log('Building Angular with Vite + Native Federation...');
       },
       generateBundle() {
         // Create import map for host
